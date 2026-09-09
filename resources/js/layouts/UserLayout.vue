@@ -63,26 +63,14 @@ const closeSidebar = () => {
                     @click="closeSidebar"
                 >
                     <div
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#C9A227] shadow-lg shadow-[#C9A227]/10"
+                        class="flex h-10 w-10 items-center justify-center rounded-xl"
                     >
-                        <svg
-                            class="h-5 w-5 text-black"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 6v12m-6-6h12"
-                            />
-                        </svg>
+                        <img src="/logo.png" alt="Logo" />
                     </div>
 
                     <div>
                         <div class="text-[15px] font-bold tracking-wide">
-                            YOUR<span class="text-[#C9A227]">APP</span>
+                            ESY<span class="text-[#C9A227]">Player</span>
                         </div>
 
                         <div class="text-[9px] uppercase tracking-[0.25em] text-gray-500">

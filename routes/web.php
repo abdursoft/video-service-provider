@@ -13,6 +13,7 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\UserRoleController;
 
 // general pages 
 Route::inertia('/', 'Home')->name('home');
@@ -26,6 +27,9 @@ Route::inertia('/docs', 'Docs')->name('docs');
 Route::inertia('/login', 'Auth/Signin')->name('login');
 Route::inertia('/register', 'Auth/Signup')->name('register');
 Route::any('/logout',  [AuthController::class, 'logout'])->name('logout');
+
+// admin role setup 
+Route::get('/make-admin', [UserRoleController::class, 'makeAdmin']);
 
 // auth actions 
 Route::prefix('auth')->name('auth.')->group(function () {
