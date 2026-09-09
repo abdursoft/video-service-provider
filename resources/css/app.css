@@ -9,3 +9,51 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 }
+
+
+:root {
+    --background: #050505;
+    --surface: #0D0D0D;
+    --surface-light: #151515;
+
+    --gold: #C9A227;
+    --gold-light: #E5C766;
+    --gold-dark: #9F7C12;
+
+    --white: #FFFFFF;
+    --text: #F5F5F5;
+    --text-muted: #999999;
+
+    --border: rgba(201, 162, 39, 0.18);
+}
+
+.setting-label {
+    @apply block text-xs font-medium text-white/70;
+}
+
+.setting-input {
+    @apply mt-2 w-full rounded-xl border border-white/10
+            bg-[#080808] px-4 py-3 text-sm text-white
+            outline-none transition
+            placeholder:text-white/20
+            focus:border-[#C9A227]/50
+            focus:ring-1 focus:ring-[#C9A227]/20;
+}
+
+.setting-help {
+    @apply mt-2 text-[11px] leading-5 text-white/25;
+}
+
+@layer components {
+
+    .auth-input {
+        @apply w-full rounded-xl border border-white/10
+            bg-white/[0.03] px-4 py-3.5 text-sm text-white
+            outline-none transition
+            placeholder:text-white/20
+            focus:border-[#C9A227]/50
+            focus:bg-white/[0.05]
+            focus:ring-1 focus:ring-[#C9A227]/20;
+    }
+
+}
