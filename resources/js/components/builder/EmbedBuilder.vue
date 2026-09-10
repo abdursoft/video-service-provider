@@ -20,8 +20,9 @@
                 </button>
 
                 <button @click="generate"
-                    class="rounded-lg bg-[#C9A227] px-5 py-2 text-xs font-semibold text-black transition hover:bg-[#E5C766]">
-                    Generate Player
+                    :disabled="form.processing"
+                    class="rounded-lg cursor-pointer bg-[#C9A227] px-5 py-2 text-xs font-semibold text-black transition hover:bg-[#E5C766]">
+                    {{ isEdit ? "Update" : "Generate" }} Player
                 </button>
             </div>
         </div>
@@ -119,7 +120,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 import EmbedSidebar from '@/components/embed/EmbedSidebar.vue';
 import VideoPlayer from '@/components/player/VideoPlayer.vue';
@@ -135,8 +136,16 @@ import ThumbnailSettings from '@/components/settings/ThumbnailSettings.vue';
 import generatePlayerConfig from '@/utils/playerConfig.js';
 import AdvancedSettings from '../settings/AdvancedSettings.vue';
 import PlaybackSettings from '../settings/PlaybackSettings.vue';
+import { useForm, usePage } from '@inertiajs/vue3';
 
 const activeTab = ref('source');
+const isEdit = ref(false);
+const page = usePage();
+
+const form = useForm({
+    configuration:null,
+    title:null
+});
 
 const generated = ref(false);
 const defaultPlayer = {
@@ -420,6 +429,11 @@ watch(
     () => player,
     (newPlayer) => {
         playerData.value = generatePlayerConfig(newPlayer.value);
+        if(page.props?.player?.title){
+            isEdit.value = true;
+        }else{
+            isEdit.value = false;
+        }
     },
     {
         immediate: true,
@@ -427,7 +441,25 @@ watch(
     },
 );
 
+onMounted(() => {
+    
+    if(page.props?.player?.title){
+        isEdit.value = true;
+        player.value = {
+            ...page.props?.player?.configuration
+        }
+    }
+});
+
 const generate = () => {
-    generated.value = true;
+    form.configuration = player.value;
+    form.title         = player.value?.name;
+    
+    if(isEdit && page.props?.player?.token_id){
+        form.put(route('user.players.update', page.props?.player?.token_id));
+    }else{
+        form.post(route('user.players.store'));
+    }
+    
 };
 </script>

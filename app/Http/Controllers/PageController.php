@@ -127,8 +127,8 @@ class PageController extends Controller
             ->get()
             ->map(function ($player) {
                 return [
-                    'id' => $player->id,
-                    'name' => $player->name,
+                    'id' => $player->token_id,
+                    'name' => $player->title,
                     'status' => ucfirst($player->status ?? 'active'),
                     'created_at' => $player->created_at->format('M d, Y'),
                 ];

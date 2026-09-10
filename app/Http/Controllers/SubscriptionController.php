@@ -37,6 +37,9 @@ class SubscriptionController extends Controller
 
     public function success(Request $request)
     {
+
+        $user = $request->user();
+
         $request->validate([
             'session_id' => ['required', 'string'],
         ]);
@@ -48,8 +51,9 @@ class SubscriptionController extends Controller
 
         $userSubscription = $this->subscriptionService
             ->handleCheckoutSessionCompleted(
-                $session
+                $session, $user
             );
+
 
         return Inertia::render('Subscription/Success', [
             'paymentStatus' => $session->payment_status,

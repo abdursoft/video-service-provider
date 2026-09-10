@@ -253,8 +253,10 @@ class SubscriptionService
     /**
      * comlete checkout session.
      */
-    public function handleCheckoutSessionCompleted($session){
+    public function handleCheckoutSessionCompleted($session, $user){
        $user_subscription = UserSubscription::find($session->metadata->subscription_id);
+
+       $package = $user_subscription->subscriptionPackage->slug;
 
         if (!$user_subscription) {
             throw ValidationException::withMessages([
@@ -278,6 +280,11 @@ class SubscriptionService
             'stripe_subscription_id' => $session->subscription->id,
             'stripe_subscription_item_id' => $session->invoice,
             'status' => $this->mapStripeStatus($session->subscription->status),
+        ]);
+
+        $user->update([
+            'package' => $package,
+            'package_status' => $session->subscription->status == 'active' ? 'active' : 'inactive'
         ]);
 
         return $user_subscription->fresh(); 

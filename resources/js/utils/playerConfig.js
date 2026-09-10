@@ -5,8 +5,6 @@ export default function generatePlayerConfig(settings) {
     const leftControls = [];
     const rightControls = [];
 
-    console.log(configs);
-
     configs.controls.list.forEach((control) => {
         switch (control.placement) {
             case 'left':
@@ -23,6 +21,8 @@ export default function generatePlayerConfig(settings) {
 
     const config = {
         id: 'player',
+
+        name:configs?.name,
 
         src: videoURL,
 
@@ -114,6 +114,44 @@ export default function generatePlayerConfig(settings) {
 
             cursor: 'pointer',
         },
+    };
+
+
+    /**
+     * Volume container
+     */
+    config.volumeContainer = {
+        css: {
+            width: '110px',
+            display: 'flex',
+            alignItems: 'center',
+            position: 'absolute',
+            justifyContent: "center",
+            bottom: '118px',
+            right: '10px',
+            padding:'8px 10px',
+            zIndex: 5,
+            background: "rgba(0,0,0,0.5)",
+            transform: "rotate(-90deg)",
+            borderRadius: "5px"
+        },
+        type: 'vertical'
+    };
+    config.volumeSliderArea = {
+        width: '100%',
+        height: '15px',
+        background: 'gray',
+        cursor: 'pointer',
+        transition: '0.5s',
+        position: 'relative',
+    };
+    config.volumeSlider = {
+        width: '0px',
+        height: '15px',
+        background: configs.appearance.progressColor,
+        cursor: 'pointer',
+        transition: '0.5s',
+        position: 'absolute'
     };
 
     /*

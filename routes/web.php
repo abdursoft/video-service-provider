@@ -46,16 +46,17 @@ Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle'])
 Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback'])
     ->name('auth.google.callback');
 
+// Subscription routes 
 Route::get(
     '/subscription/success',
     [SubscriptionController::class, 'success']
 )->name('subscription.success');
-
-
 Route::post(
     '/stripe/webhook',
     [StripeWebhookController::class, 'handle']
 )->name('stripe.webhook');
+
+Route::get('/player/{token}', [PlayerController::class, 'render'])->name('player.render');
 
 // password forgotten 
 Route::prefix('password')->name('password.')->group(function () {
@@ -235,7 +236,7 @@ Route::middleware(['auth', 'role:user'])
             ->middleware('permission:packages.view')
             ->name('packages.index');
 
-        
+
         Route::get('/settings', function () {
             return inertia('Admin/Settings/Index');
         })->name('settings.index');
@@ -292,5 +293,15 @@ Route::middleware(['auth', 'role:user'])
         Route::put('/user/password', [PasswordController::class, 'update'])
             ->middleware('permission:password.change')
             ->name('password.update');
+    });
+
+
+    //=========================================================
+    // Player Routes 
+    //=========================================================
+    Route::middleware(['auth', 'role:user'])
+    ->group(function () {
+
+        Route::resource('players', PlayerController::class);
 
     });

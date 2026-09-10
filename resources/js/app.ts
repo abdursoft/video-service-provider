@@ -83,6 +83,6 @@ createInertiaApp({
 
     // Optional: add progress bar configuration if needed
     progress: {
-        color: '#1c62c4',
+        color: '#E5C766',
     },
 });

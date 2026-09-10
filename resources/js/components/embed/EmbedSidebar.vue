@@ -82,6 +82,11 @@ const tabs = [
         icon: '▷',
     },
     {
+        id: 'appearance',
+        label: 'Appearance',
+        icon: '▷',
+    },
+    {
         id: 'controls',
         label: 'Controls',
         icon: '☷',

@@ -53,15 +53,39 @@
             <div>
 
                 <label class="setting-label">
-                    Accent color
+                    Progressbar Background Color
                 </label>
 
-                <div class="flex gap-3">
+                <div class="flex gap-3 mt-2">
 
                     <button
                         v-for="color in colors"
                         :key="color"
-                        @click="model.accentColor = color"
+                        @click="model.appearance.progressBackground = color"
+                        class="h-9 w-9 rounded-full border-2 transition"
+                        :style="{ backgroundColor: color }"
+                        :class="model.accentColor === color
+                            ? 'border-white scale-110'
+                            : 'border-transparent'"
+                    />
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <label class="setting-label">
+                    Progress color
+                </label>
+
+                <div class="flex gap-3 mt-2">
+
+                    <button
+                        v-for="color in colors"
+                        :key="color"
+                        @click="model.appearance.progressColor = color"
                         class="h-9 w-9 rounded-full border-2 transition"
                         :style="{ backgroundColor: color }"
                         :class="model.accentColor === color
@@ -96,6 +120,29 @@
                     max="24"
                     class="mt-4 w-full accent-[#C9A227]"
                 />
+
+            </div>
+
+            <div>
+
+                <label class="setting-label">
+                    Icon Hover color
+                </label>
+
+                <div class="flex gap-3 mt-2">
+
+                    <button
+                        v-for="color in colors"
+                        :key="color"
+                        @click="model.appearance.iconHoverColor = color"
+                        class="h-9 w-9 rounded-full border-2 transition"
+                        :style="{ backgroundColor: color }"
+                        :class="model.accentColor === color
+                            ? 'border-white scale-110'
+                            : 'border-transparent'"
+                    />
+
+                </div>
 
             </div>
 

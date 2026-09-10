@@ -262,7 +262,7 @@
                         />
 
                         <p class="text-xs text-white/40">
-                            {{ player.created }}
+                            {{ player.created_at }}
                         </p>
 
                     </div>
@@ -304,6 +304,7 @@
                         class="rounded-lg p-2
                                 text-white/35
                                 transition
+                                cursor-pointer
                                 hover:bg-white/[0.05]
                                 hover:text-white"
                     >
@@ -319,6 +320,7 @@
                         class="rounded-lg p-2
                                 text-white/35
                                 transition
+                                cursor-pointer
                                 hover:bg-white/[0.05]
                                 hover:text-[#C9A227]"
                     >
@@ -334,6 +336,7 @@
                         class="rounded-lg p-2
                                 text-white/35
                                 transition
+                                cursor-pointer
                                 hover:bg-white/[0.05]
                                 hover:text-[#C9A227]"
                     >
@@ -349,6 +352,7 @@
                         class="rounded-lg p-2
                                 text-white/35
                                 transition
+                                cursor-pointer
                                 hover:bg-red-400/10
                                 hover:text-red-400"
                     >
@@ -414,6 +418,7 @@
                         items-center gap-2
                         rounded-xl bg-[#C9A227]
                         px-5 py-3
+                        cursor-pointer
                         text-sm font-semibold
                         text-black
                         transition
@@ -431,7 +436,7 @@
 
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import {
     Plus,
@@ -449,12 +454,16 @@ import {
 } from 'lucide-vue-next'
 
 import UserLayout from '@/layouts/UserLayout.vue'
+import { router, usePage } from '@inertiajs/vue3';
 
 
 defineOptions({
     layout: UserLayout
 });
 
+const page = usePage();
+
+console.log(typeof page.props?.players)
 
 /*
 |--------------------------------------------------------------------------
@@ -506,57 +515,7 @@ const stats = [
 |
 */
 
-const players = ref([
-    {
-        id: 1,
-        name: 'Main Website Player',
-        source: 'https://example.com/video.mp4',
-        thumbnail: null,
-        status: 'active',
-        created: 'Sep 08, 2026',
-        views: 8420,
-    },
-
-    {
-        id: 2,
-        name: 'Course Player',
-        source: 'https://example.com/course.mp4',
-        thumbnail: null,
-        status: 'active',
-        created: 'Sep 05, 2026',
-        views: 5210,
-    },
-
-    {
-        id: 3,
-        name: 'Landing Page Video',
-        source: 'https://example.com/landing.mp4',
-        thumbnail: null,
-        status: 'draft',
-        created: 'Sep 02, 2026',
-        views: 0,
-    },
-
-    {
-        id: 4,
-        name: 'Product Demo',
-        source: 'https://example.com/product.mp4',
-        thumbnail: null,
-        status: 'active',
-        created: 'Aug 29, 2026',
-        views: 3820,
-    },
-
-    {
-        id: 5,
-        name: 'Marketing Video',
-        source: 'https://example.com/marketing.mp4',
-        thumbnail: null,
-        status: 'active',
-        created: 'Aug 25, 2026',
-        views: 7310,
-    },
-])
+const players = computed(() => page.props?.players);
 
 
 /*
@@ -566,6 +525,7 @@ const players = ref([
 */
 
 const filteredPlayers = computed(() => {
+
 
     return players.value.filter((player) => {
 
@@ -578,9 +538,9 @@ const filteredPlayers = computed(() => {
             player.name
                 .toLowerCase()
                 .includes(query) ||
-            player.source
-                .toLowerCase()
-                .includes(query)
+            player?.source
+                ?.toLowerCase()
+                ?.includes(query)
 
         const matchesStatus =
             status.value === 'all' ||
@@ -599,19 +559,19 @@ const filteredPlayers = computed(() => {
 
 const createPlayer = () => {
     console.log('Create player')
-    // router.visit(route('players.create'))
+    router.visit(route('user.players.create'))
 }
 
 
 const previewPlayer = (player) => {
     console.log('Preview player:', player)
-    // router.visit(route('players.preview', player.id))
+    window.open(route('player.render', player.id), '_blank');
 }
 
 
 const editPlayer = (player) => {
     console.log('Edit player:', player)
-    // router.visit(route('players.edit', player.id))
+    router.visit(route('user.players.edit', player.id))
 }
 
 
@@ -623,6 +583,7 @@ const embedPlayer = (player) => {
 
 const deletePlayer = (player) => {
 
+
     const confirmed = confirm(
         `Are you sure you want to delete "${player.name}"?`
     )
@@ -631,8 +592,6 @@ const deletePlayer = (player) => {
         return
     }
 
-    players.value = players.value.filter(
-        item => item.id !== player.id
-    )
+    router.delete(route('user.players.destroy', player.id));
 }
 </script>
