@@ -157,17 +157,14 @@ Route::middleware(['auth', 'role:admin'])
     });
 
 
+
+// Subscription routes 
 Route::middleware('auth')->group(function () {
 
     Route::get(
         '/subscription',
         [SubscriptionController::class, 'index']
     )->name('subscription.index');
-
-    Route::post(
-        '/subscription/{package}',
-        [SubscriptionController::class, 'subscribe']
-    )->name('subscription.subscribe');
 
     Route::post(
         '/subscription/cancel',
@@ -178,6 +175,19 @@ Route::middleware('auth')->group(function () {
         '/subscription/cancel-immediately',
         [SubscriptionController::class, 'cancelImmediately']
     )->name('subscription.cancel.immediately');
+
+
+    Route::post('/subscription/change', [SubscriptionController::class, 'change'])
+        ->name('subscription.change');
+
+
+    Route::post('/subscription/resume', [SubscriptionController::class, 'resume'])
+        ->name('subscription.resume');
+
+    Route::post(
+        '/subscription/{package}',
+        [SubscriptionController::class, 'subscribe']
+    )->name('subscription.subscribe');
 });
 // admin routes end  
 
@@ -228,15 +238,6 @@ Route::middleware(['auth', 'role:user'])
             ->name('players.destroy');
 
 
-        // ----------------------------------------------------
-        // Packages
-        // ----------------------------------------------------
-
-        Route::get('/user/packages', [SubscriptionPackageController::class, 'index'])
-            ->middleware('permission:packages.view')
-            ->name('packages.index');
-
-
         Route::get('/settings', function () {
             return inertia('Admin/Settings/Index');
         })->name('settings.index');
@@ -246,7 +247,7 @@ Route::middleware(['auth', 'role:user'])
         // Subscriptions
         // ----------------------------------------------------
 
-        Route::get('/user/subscriptions', [SubscriptionController::class, 'index'])
+        Route::get('/user/subscriptions', [PaymentController::class, 'index'])
             ->middleware('permission:subscriptions.view')
             ->name('subscriptions.index');
 
@@ -296,12 +297,11 @@ Route::middleware(['auth', 'role:user'])
     });
 
 
-    //=========================================================
-    // Player Routes 
-    //=========================================================
-    Route::middleware(['auth', 'role:user'])
+//=========================================================
+// Player Routes 
+//=========================================================
+Route::middleware(['auth', 'role:user'])
     ->group(function () {
 
         Route::resource('players', PlayerController::class);
-
     });

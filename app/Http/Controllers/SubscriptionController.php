@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SubscriptionPackage;
+use App\Models\UserSubscription;
 use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,8 +22,8 @@ class SubscriptionController extends Controller
         $user = $request->user();
 
         $packages = SubscriptionPackage::query()
-            ->where('status', 'active')
-            ->orderBy('price')
+            ->where('is_active', 'true')
+            ->orderBy('sort_order')
             ->get();
 
         return Inertia::render('Subscription/Index', [
@@ -59,6 +60,24 @@ class SubscriptionController extends Controller
             'paymentStatus' => $session->payment_status,
             'userSubscription' => $userSubscription,
         ]);
+    }
+
+    /**
+     * change subscription
+     */
+    public function change(Request $request){
+
+        $active = UserSubscription::with('subscriptionPackage')->where('user_id', auth()->id())->where('status', 'active')->latest()->first();
+        $target = SubscriptionPackage::findOrFail($request->input('package_id'));
+        $user = $request->user();
+        
+        $this->subscriptionService->switchPlan(
+            $user,
+            $active,
+            $target
+        );
+
+        return Inertia::render('Subscription/Index')->with('success','Subscription package successfully updated');
     }
 
     /**
@@ -120,4 +139,5 @@ class SubscriptionController extends Controller
             'Subscription canceled successfully.'
         );
     }
+    
 }

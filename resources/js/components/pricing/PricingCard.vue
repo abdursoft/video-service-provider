@@ -72,7 +72,7 @@
 
         <Link :href="plan.href || '/register'" class="mt-7 block w-full rounded-xl
                    py-3.5 text-center text-xs
-                   font-semibold transition" :class="featured
+                   font-semibold transition cursor-pointer" :class="featured
                         ? 'bg-[#C9A227] text-black hover:bg-[#d9b63b]'
                         : 'border border-white/10 bg-white/[0.03] text-white hover:bg-white/[0.07]'
                     ">

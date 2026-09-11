@@ -62,6 +62,14 @@ class User extends Authenticatable
         return $this->hasMany(Player::class);
     }
 
+    /**
+     * Relation with player view
+     */
+    public function views(): HasMany
+    {
+        return $this->hasMany(PlayerView::class);
+    }
+
 
     public function payments()
     {

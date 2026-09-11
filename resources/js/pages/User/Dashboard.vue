@@ -241,7 +241,7 @@ const props = defineProps({
                 <!-- Package -->
                 <Link
                     v-if="can('packages.view')"
-                    :href="route('user.packages.index')"
+                    :href="route('pricing')"
                     class="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0e0e0e] p-5 transition duration-300 hover:-translate-y-0.5 hover:border-[#C9A227]/30"
                 >
                     <div class="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#C9A227]/5 blur-2xl" />
@@ -366,7 +366,7 @@ const props = defineProps({
 
                             <Link
                                 v-if="can('packages.view')"
-                                :href="route('user.packages.index')"
+                                :href="route('pricing')"
                                 class="rounded-xl bg-white/[0.05] px-4 py-2.5 text-xs font-medium text-gray-300 transition hover:bg-white/[0.08] hover:text-white"
                             >
                                 Browse Packages

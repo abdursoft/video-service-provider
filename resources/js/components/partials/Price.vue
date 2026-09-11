@@ -150,7 +150,7 @@ const isCurrentPlan = (packageId: number) => {
     <button
         type="button"
         @click="subscribe(plan.id)"
-        class="relative mt-7 flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-semibold transition-all duration-300"
+        class="relative mt-7 cursor-pointer flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-semibold transition-all duration-300"
         :class="
             plan.is_popular
                 ? 'bg-[#C9A227] text-black shadow-lg shadow-[#C9A227]/10 hover:bg-[#D8B43A] hover:shadow-[#C9A227]/20'
@@ -220,7 +220,7 @@ const isCurrentPlan = (packageId: number) => {
     <!-- Limits -->
     <div
         v-if="Object.keys(plan.limits || {}).length"
-        class="mt-8 rounded-2xl border border-white/[0.06] bg-black/20 p-4"
+        class="mt-8 hidden rounded-2xl border border-white/[0.06] bg-black/20 p-4"
     >
         <p
             class="mb-4 text-[9px] font-semibold uppercase tracking-[0.22em] text-white/30"

@@ -16,6 +16,7 @@ class PlayerViewHelper
         $request ??= request();
 
         return PlayerView::create([
+            'user_id'     => $player->user_id,
             'player_id'   => $player->id,
             'agent'       => $request->userAgent(),
             'browser'     => self::browser($request->userAgent()),

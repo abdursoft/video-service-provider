@@ -33,4 +33,17 @@ class Player extends Model
     {
         return $this->hasMany(PlayerView::class);
     }
+
+    public function getTotalViewsAttribute(): int
+    {
+        return $this->views()->count();
+    }
+
+    public function getMonthlyViewsAttribute(): int
+    {
+        return $this->views()
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+    }
 }

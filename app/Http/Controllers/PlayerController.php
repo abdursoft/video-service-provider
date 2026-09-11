@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\PlayerViewHelper;
 use App\Models\Player;
+use App\Models\PlayerView;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -15,31 +16,44 @@ class PlayerController extends Controller
     /**
      * Display user's players.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $players = Player::query()
+            ->with('views')
             ->where('user_id', auth()->id())
             ->latest()
             ->get()
-            ->map(function($player){
+            ->map(function ($player) {
                 return [
                     'id' => $player->token_id,
                     'name' => $player->title,
-                    'views' => number_format($player->views),
+                    'views' => number_format($player->total_views),
                     'status' => $player->status,
                     'created_at' => Carbon::parse($player->created_at)->format('d M, Y, h:i:s A')
                 ];
             });
 
+        $user = $request->user();
+
         $active = Player::query()->where('user_id', auth()->id())->where('status', 'active')->count();
-        $total_views = Player::query()->where('user_id', auth()->id())->sum('views');
-        $monthly_views = Player::query()->where('user_id', auth()->id())->sum('views');
+        $totalViews = PlayerView::whereHas('player', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->count();
+
+        $monthlyViews = PlayerView::whereHas('player', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->whereBetween('created_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth(),
+            ])
+            ->count();
 
         return Inertia::render('Players/Index', [
             'players' => $players,
             'active' => $active,
-            'total_views' => $total_views,
-            'monthly_views' => $monthly_views
+            'total_views' => $totalViews,
+            'monthly_views' => $monthlyViews
         ]);
     }
 
@@ -155,7 +169,8 @@ class PlayerController extends Controller
     /**
      * Render player view
      */
-    public function render(String $player){
+    public function render(String $player)
+    {
         $player = Player::where('token_id', $player)->first();
         $player->increment('views', 1);
         PlayerViewHelper::record($player);
@@ -170,7 +185,7 @@ class PlayerController extends Controller
      */
     private function authorizePlayer(Player $player): void
     {
-        
+
         abort_unless(
             $player->user_id === auth()->id(),
             403

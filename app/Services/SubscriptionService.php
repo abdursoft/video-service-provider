@@ -237,12 +237,15 @@ class SubscriptionService
          */
         $current->update([
             'subscription_package_id' => $newPackage->id,
-            'price' => $newPackage->price,
+            'price' => $newPackage->amount,
             'currency' => $newPackage->currency,
             'status' => $this->mapStripeStatus(
                 $updatedStripeSubscription->status
             ),
         ]);
+
+        $user->package = $newPackage->slug;
+        $user->save();
 
         return $current->fresh([
             'user',
