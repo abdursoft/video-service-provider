@@ -31,7 +31,7 @@
             <main class="min-w-0">
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
                     <!-- Settings -->
-                    <div class="min-h-[650px] border-b border-white/[0.08] p-5 sm:p-8 xl:border-r xl:border-b-0">
+                    <div class="min-h-[340px] md:min-h-[450px] border-b border-white/[0.08] p-5 sm:p-8 xl:border-r xl:border-b-0">
                         <SourceFreeSettings v-model="player" />
                     </div>
 
@@ -104,8 +104,18 @@ import VideoPlayer from '@/components/player/VideoPlayer.vue';
 
 import generatePlayerConfig from '@/utils/playerConfig.js';
 import SourceFreeSettings from '../settings/SourceFreeSettings.vue';
+import { useForm, usePage } from '@inertiajs/vue3';
+import axios from 'axios';
+import renderIframe from '@/utils/EmbedRender.js';
+
+const page = usePage();
 
 const activeTab = ref('source');
+
+const form = useForm({
+    title: null,
+    configuration: null
+});
 
 const generated = ref(false);
 const defaultPlayer = {
@@ -302,13 +312,14 @@ const defaultPlayer = {
     },
 
     branding: {
-        enabled: false,
+        enabled: true,
 
-        logo: '',
+        logo: page.props?.appURL+'/logo.png',
 
         position: {
-            top: 10,
-            right: 30,
+            top: '20px',
+            right: '20px',
+            left: 'auto',
             width: 70,
             height: 65,
             bottom: 'auto',
@@ -316,7 +327,7 @@ const defaultPlayer = {
 
         opacity: 100,
 
-        keyword:null,
+        keyword: null,
 
         borderRadius: 50,
     },
@@ -396,19 +407,25 @@ watch(
     },
 );
 
-const generate =  async () => {
+const generate = async () => {
     generated.value = true;
-    console.log(playerData.value);
-    console.log(player.value);
-    const data = JSON.stringify(player.value, null, 2);
 
-    try {
-        await window?.navigator?.clipboard?.writeText(data);
+    form.configuration = player.value;
+    form.title = player.value?.name;
 
-        console.log("Copied successfully");
+    await axios.post(route('player.store'), {
+        title: player.value.name,
+        configuration: player.value
+    }).then(async (response) => {
+        const iframe = renderIframe(response.data?.player?.token_id);
+        try {
+            await window?.navigator?.clipboard?.writeText(iframe);
+            console.log("Copied successfully");
+        } catch (error) {
+            console.error("Copy failed:", error);
+        }
+    })
 
-    } catch (error) {
-        console.error("Copy failed:", error);
-    }
+
 };
 </script>

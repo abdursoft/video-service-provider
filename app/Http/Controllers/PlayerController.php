@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\PlayerViewHelper;
+use App\Models\EmbededFrame;
 use App\Models\Player;
 use App\Models\PlayerView;
 use Carbon\Carbon;
@@ -95,6 +96,35 @@ class PlayerController extends Controller
             ->with('success', 'Player created successfully.');
     }
 
+
+    /**
+     * Store a new player.
+     */
+    public function publicStore(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'configuration' => [
+                'nullable',
+                'array',
+            ],
+        ]);
+
+        $player = EmbededFrame::create([
+            'title' => $validated['title'],
+            'token_id' => Str::uuid(),
+            'configuration' => $validated['configuration'] ?? null,
+            'user_id' => optional(auth())->id(),
+        ]);
+
+        return response()->json(['player' => $player], 200);
+    }
+
     /**
      * Show a player.
      */
@@ -103,6 +133,18 @@ class PlayerController extends Controller
         $this->authorizePlayer($player);
 
         return Inertia::render('Players/Show', [
+            'player' => $player,
+        ]);
+    }
+
+    /**
+     * Show a player.
+     */
+    public function watch(String $token)
+    {
+        $player = EmbededFrame::where('token_id', $token)->latest()->first();
+
+        return Inertia::render('Players/Render', [
             'player' => $player,
         ]);
     }

@@ -11,17 +11,9 @@
                 <textarea v-model="model.source.url" rows="4" class="setting-input resize-none"
                     placeholder="https://example.com/video.m3u8" />
 
-                <p class="setting-help">
+                <p class="setting-help !text-yellow-200">
                     Youtube and Vimeo's private video doesn't playable
                 </p>
-            </div>
-
-            <!-- Player name -->
-
-            <div>
-                <label class="setting-label"> Player name </label>
-
-                <input v-model="model.name" type="text" class="setting-input" placeholder="My Video Player" />
             </div>
 
             <!-- Test -->

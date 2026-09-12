@@ -299,7 +299,7 @@ defineOptions({
 
                             <button
                                 @click="resumeSubscription"
-                                class="rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium transition hover:bg-white/5"
+                                class="cursor-pointer rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium transition hover:bg-white/5"
                             >
                                 Resume Subscription
                             </button>
@@ -313,7 +313,7 @@ defineOptions({
 
                         <button
                             @click="showChangeModal = true"
-                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#C9A227] px-5 py-3 text-sm font-semibold text-black transition hover:bg-[#d8b431]"
+                            class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl bg-[#C9A227] px-5 py-3 text-sm font-semibold text-black transition hover:bg-[#d8b431]"
                         >
                             <CreditCard :size="17" />
                             Change Plan
@@ -323,7 +323,7 @@ defineOptions({
                         <button
                             v-if="!isCanceling"
                             @click="showCancelModal = true"
-                            class="inline-flex items-center justify-center gap-2 rounded-xl border border-red-400/20 px-5 py-3 text-sm font-medium text-red-400 transition hover:bg-red-400/10"
+                            class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl border border-red-400/20 px-5 py-3 text-sm font-medium text-red-400 transition hover:bg-red-400/10"
                         >
                             <X :size="17" />
                             Cancel Subscription

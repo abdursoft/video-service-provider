@@ -19,7 +19,7 @@
 
 
             <div class="relative mx-auto max-w-3xl
-                       text-center">
+                       text-center pt-13 md:pt-2">
 
                 <div class="mb-5 inline-flex items-center
                            gap-2 rounded-full border

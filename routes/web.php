@@ -56,6 +56,8 @@ Route::post(
     [StripeWebhookController::class, 'handle']
 )->name('stripe.webhook');
 
+Route::get('/watch/{token}', [PlayerController::class, 'watch'])->name('player.watch');
+Route::post('/player/create', [PlayerController::class, 'publicStore'])->name('player.store');
 Route::get('/player/{token}', [PlayerController::class, 'render'])->name('player.render');
 
 // password forgotten 

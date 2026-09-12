@@ -209,7 +209,7 @@ const closeSidebar = () => {
                     <Link
                         v-if="can('settings.view')"
                         :href="route('user.settings.index')"
-                        class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition"
+                        class="hidden items-center gap-3 rounded-xl px-3 py-3 text-sm transition"
                         :class="route().current('user.settings.*')
                             ? 'bg-[#C9A227]/10 text-[#C9A227]'
                             : 'text-gray-400 hover:bg-white/[0.04] hover:text-white'"
@@ -240,9 +240,9 @@ const closeSidebar = () => {
 
                     <!-- Profile -->
                     <Link
-                        v-if="can('profile.edit')"
-                        :href="route('user.profile.edit')"
-                        class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition"
+                        v-if="can('home')"
+                        :href="route('user.home')"
+                        class="hidden items-center gap-3 rounded-xl px-3 py-3 text-sm transition"
                         :class="route().current('user.profile.*')
                             ? 'bg-[#C9A227]/10 text-[#C9A227]'
                             : 'text-gray-400 hover:bg-white/[0.04] hover:text-white'"
@@ -274,7 +274,7 @@ const closeSidebar = () => {
                     <!-- Password -->
                     <Link
                         v-if="can('password.change')"
-                        :href="route('user.password.edit')"
+                        :href="route('password.forgot')"
                         class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition"
                         :class="route().current('user.password.*')
                             ? 'bg-[#C9A227]/10 text-[#C9A227]'
@@ -424,8 +424,8 @@ const closeSidebar = () => {
 
                         <!-- Profile -->
                         <Link
-                            v-if="can('profile.edit')"
-                            :href="route('user.profile.edit')"
+                            
+                            :href="route('auth.dashboard')"
                             class="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-2.5 py-2 transition hover:bg-white/[0.06]"
                         >
                             <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[#C9A227] text-sm font-semibold text-black">

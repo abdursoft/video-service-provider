@@ -76,7 +76,7 @@
             </div>
 
             <div
-                class="mt-16 flex flex-col justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/30 md:flex-row">
+                class="mt-16 flex flex-col text-center justify-center md:justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/30 md:flex-row">
                 <p>
                     © {{ new Date().getFullYear() }} ESY Player. All rights
                     reserved.

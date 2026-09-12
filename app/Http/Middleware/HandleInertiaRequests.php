@@ -40,6 +40,8 @@ class HandleInertiaRequests extends Middleware
 
             'name' => config('app.name'),
 
+            'appURL' => config('app.url'),
+
             'auth' => [
                 'user' => $request->user(),
                 'roles' => $request->user()?->getRoleNames(),
