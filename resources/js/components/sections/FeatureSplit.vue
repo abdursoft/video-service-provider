@@ -20,8 +20,8 @@ import { Link } from '@inertiajs/vue3';
                            bg-[#050505]">
 
                     <!-- Replace this with your actual image -->
-                    <img src="/images/player-dashboard.jpg" alt="ESY Player"
-                        class="h-full w-full object-cover opacity-90" />
+                    <img src="/images/source.png" alt="ESY Player"
+                        class="h-full w-full opacity-90" />
 
                     <div class="absolute inset-0 bg-gradient-to-tr
                                from-black/60 via-transparent to-[#C9A227]/10" />
@@ -59,7 +59,7 @@ import { Link } from '@inertiajs/vue3';
                 <!-- Points -->
                 <div class="mt-9 space-y-5">
 
-                    <div class="flex gap-4">
+                    <div class="flex gap-4" data-aos="fade-up" data-aos-delay="500">
 
                         <div class="mt-1 flex h-6 w-6 shrink-0
                                    items-center justify-center rounded-full
@@ -82,7 +82,7 @@ import { Link } from '@inertiajs/vue3';
                     </div>
 
 
-                    <div class="flex gap-4">
+                    <div class="flex gap-4" data-aos="fade-up" data-aos-delay="300">
 
                         <div class="mt-1 flex h-6 w-6 shrink-0
                                    items-center justify-center rounded-full
@@ -105,7 +105,7 @@ import { Link } from '@inertiajs/vue3';
                     </div>
 
 
-                    <div class="flex gap-4">
+                    <div class="flex gap-4" data-aos="fade-up" data-aos-delay="100">
 
                         <div class="mt-1 flex h-6 w-6 shrink-0
                                    items-center justify-center rounded-full

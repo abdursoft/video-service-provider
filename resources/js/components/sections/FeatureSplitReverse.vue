@@ -31,7 +31,7 @@
 
                 <div class="mt-9 grid gap-4 sm:grid-cols-2">
 
-                    <div class="rounded-xl border border-white/[0.07]
+                    <div data-aos="fade-up" data-aos-delay="600" class="rounded-xl border border-white/[0.07]
                                bg-[#0D0D0D] p-5">
                         <div class="text-[#C9A227]">
                             ◈
@@ -47,7 +47,7 @@
                     </div>
 
 
-                    <div class="rounded-xl border border-white/[0.07]
+                    <div data-aos="fade-up" data-aos-delay="400" class="rounded-xl border border-white/[0.07]
                                bg-[#0D0D0D] p-5">
                         <div class="text-[#C9A227]">
                             ◈
@@ -63,7 +63,7 @@
                     </div>
 
 
-                    <div class="rounded-xl border border-white/[0.07]
+                    <div data-aos="fade-up" data-aos-delay="200" class="rounded-xl border border-white/[0.07]
                                bg-[#0D0D0D] p-5">
                         <div class="text-[#C9A227]">
                             ◈
@@ -102,18 +102,14 @@
             <!-- Image -->
             <div class="relative lg:order-2">
 
-                <div class="absolute -inset-6 rounded-[2rem]
-                           bg-[#C9A227]/5 blur-3xl" />
+                <div class="absolute -inset-6" />
 
-                <div class="relative aspect-[4/3] overflow-hidden
-                           rounded-3xl border border-white/10
-                           bg-[#0D0D0D]">
+                <div class="relative aspect-[4/3]">
 
-                    <img src="/images/player-customization.jpg" alt="Player customization"
-                        class="h-full w-full object-cover opacity-90" />
+                    <img src="/images/player.png" alt="Player customization"
+                        class="h-full w-full object-contain opacity-90" />
 
-                    <div class="absolute inset-0 bg-gradient-to-bl
-                               from-black/60 via-transparent to-[#C9A227]/10" />
+                    <div class="absolute inset-0" />
 
                 </div>
 

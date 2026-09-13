@@ -5,17 +5,13 @@
             <!-- Heading -->
             <div class="mx-auto max-w-2xl text-center">
 
-                <span
-                    class="text-[10px] font-semibold uppercase
-                           tracking-[0.3em] text-[#C9A227]"
-                >
+                <span class="text-[10px] font-semibold uppercase
+                           tracking-[0.3em] text-[#C9A227]">
                     Why ESY Player
                 </span>
 
-                <h2
-                    class="mt-4 text-3xl font-semibold tracking-tight
-                           text-white sm:text-4xl lg:text-5xl"
-                >
+                <h2 data-aos="fade-in" data-aos-delay="500" class="mt-4 text-3xl font-semibold tracking-tight
+                           text-white sm:text-4xl lg:text-5xl">
                     Everything you need.
                     <span class="text-white/40">
                         Nothing you don't.
@@ -31,33 +27,19 @@
 
 
             <!-- Features -->
-            <div
-                class="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-            >
+            <div class="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-                <FeatureCard
-                    number="01"
-                    title="Simple"
-                    description="Paste your video URL and create an embeddable player in seconds."
-                />
+                <FeatureCard data-aos="fade-up" data-aos-delay="100" number="01" title="Simple"
+                    description="Paste your video URL and create an embeddable player in seconds." />
 
-                <FeatureCard
-                    number="02"
-                    title="Beautiful"
-                    description="Give your videos a premium viewing experience with a modern player."
-                />
+                <FeatureCard data-aos="fade-up" data-aos-delay="200" number="02" title="Beautiful"
+                    description="Give your videos a premium viewing experience with a modern player." />
 
-                <FeatureCard
-                    number="03"
-                    title="Powerful"
-                    description="Customize your player, branding, thumbnail, controls and more."
-                />
+                <FeatureCard data-aos="fade-up" data-aos-delay="300" number="03" title="Powerful"
+                    description="Customize your player, branding, thumbnail, controls and more." />
 
-                <FeatureCard
-                    number="04"
-                    title="Anywhere"
-                    description="Embed your player on websites, blogs, platforms and applications."
-                />
+                <FeatureCard data-aos="fade-up" data-aos-delay="400" number="04" title="Anywhere"
+                    description="Embed your player on websites, blogs, platforms and applications." />
 
             </div>
 

@@ -21,18 +21,6 @@ class AdminController extends Controller
         return view('auth.admin.users',compact('users'));
     }
 
-    // transactions list
-    public function transactions(){
-        $subscriptions = UserSubscription::with(['package','user'])->latest()->get();
-        return view('auth.admin.user-subscription', compact('subscriptions'));
-    }
-
-    // issues list
-    public function issues(){
-        $issues = Issue::all();
-        dd($issues);
-    }
-
     // contact list
     public function contacts(){
         $contacts = ContactMessage::all();

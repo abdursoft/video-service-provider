@@ -19,6 +19,9 @@ import 'vue-tel-input/vue-tel-input.css';
 import { ZiggyVue } from 'ziggy-js';
 import { Ziggy } from './ziggy';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 createInertiaApp({
     resolve: (name: string) => {
         const pages = import.meta.glob('./pages/**/*.vue', {
@@ -77,9 +80,18 @@ createInertiaApp({
             app.mount(el);
         }
 
+                // Initialize AOS globally
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 80,
+        });
+
         // 4. Return the app instance (required for SSR)
         return app;
     },
+    
 
     // Optional: add progress bar configuration if needed
     progress: {

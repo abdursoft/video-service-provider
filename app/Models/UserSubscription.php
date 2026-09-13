@@ -67,6 +67,19 @@ class UserSubscription extends Model
         );
     }
 
+
+
+    /**
+     * The subscription package.
+     */
+    public function package(): BelongsTo
+    {
+        return $this->belongsTo(
+            SubscriptionPackage::class,
+            'subscription_package_id'
+        );
+    }
+
     /**
      * Check if subscription is active.
      */

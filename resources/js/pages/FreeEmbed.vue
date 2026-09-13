@@ -12,7 +12,7 @@ defineOptions({
     <div class="min-h-screen bg-[#050505] text-white">
 
         <Head title="Embed Player" description="Embed your custom video player on your website" />
-        <main class="mx-auto max-w-[1500px] px-4 pt-28 pb-20 sm:px-6 lg:px-8">
+        <main class="mx-auto max-w-7xl px-4 pt-28 pb-20 sm:px-6 lg:px-8">
             <!-- Page heading -->
             <div class="mb-8">
                 <div

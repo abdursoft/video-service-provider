@@ -8,6 +8,7 @@ use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubscriptionPackageController;
+use App\Http\Controllers\Admin\UserSubscription;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
@@ -136,6 +137,26 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::delete('/users/{user}', [UserController::class, 'destroy'])
             ->name('users.destroy');
+
+        Route::get(
+            '/user-subscriptions',
+            [UserSubscription::class, 'index']
+        )->name('user-subscriptions.index');
+
+        Route::get(
+            '/user-subscriptions/{userSubscription}',
+            [UserSubscription::class, 'show']
+        )->name('user-subscriptions.show');
+
+        Route::post(
+            '/user-subscriptions/{userSubscription}/cancel',
+            [UserSubscription::class, 'cancel']
+        )->name('user-subscriptions.cancel');
+
+        Route::post(
+            '/user-subscriptions/{userSubscription}/reactivate',
+            [UserSubscription::class, 'reactivate']
+        )->name('user-subscriptions.reactivate');
 
         Route::get(
             '/subscription-packages',

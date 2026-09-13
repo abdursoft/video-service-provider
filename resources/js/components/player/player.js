@@ -2138,7 +2138,7 @@ export default function absVideo(premium) {
         def.fn.attribute(logo, {
             oncontextmenu: 'return false',
             src: premium?.logo?.url,
-            alt: 'abdursoft abs video player',
+            alt: 'ESY player',
         });
         premium?.logo?.url ? def.fn.append(logoArea, logo) : true;
 
@@ -8881,7 +8881,7 @@ export default function absVideo(premium) {
             }
 
             setLanguage();
-            const hostURL = 'aHR0cHM6Ly9hYmR1cnNvZnQuY29tLw==';
+            const hostURL = 'aHR0cHM6Ly9lc3lwbGF5ZXIuY29tLw==';
             const menuItems = [
                 {
                     content: def.fn.getLang('copyUrl'),
@@ -8896,14 +8896,14 @@ export default function absVideo(premium) {
                     events: {
                         click: (e) => {
                             window.open(
-                                atob(hostURL) + 'plugins/abs-video',
+                                atob(hostURL) + 'docs',
                                 '_blank',
                             );
                         },
                     },
                 },
                 {
-                    content: `${def.fn.getLang('version')} 1.1.2`,
+                    content: `${def.fn.getLang('version')} 1.1.5`,
                     adsDivider: 'top',
                 },
             ];
