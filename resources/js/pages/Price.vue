@@ -39,7 +39,7 @@
                 </div>
 
 
-                <h1 class="text-4xl font-semibold
+                <h1 data-aos="fade-up" class="text-4xl font-semibold
                            tracking-tight sm:text-5xl">
                     Choose the plan that
                     <span class="text-[#C9A227]">
@@ -151,13 +151,13 @@
                 <div class="mt-12 grid gap-4
                            sm:grid-cols-2 lg:grid-cols-4">
 
-                    <SummaryCard title="Embed" description="Generate a ready-to-use iframe for any website." />
+                    <SummaryCard title="Embed" description="Generate a ready-to-use iframe for any website." icon="embed" data-aos="fade-up" data-aos-delay="100"/>
 
-                    <SummaryCard title="Customize" description="Control colors, controls, branding and behavior." />
+                    <SummaryCard title="Customize" description="Control colors, controls, branding and behavior." icon="customize" data-aos="fade-up" data-aos-delay="200" />
 
-                    <SummaryCard title="Playlist" description="Put multiple videos into one seamless player." />
+                    <SummaryCard title="Playlist" description="Put multiple videos into one seamless player." icon="playlist" data-aos="fade-up" data-aos-delay="400" />
 
-                    <SummaryCard title="Monetize" description="Add VAST advertising to your video experience." />
+                    <SummaryCard title="Monetize" description="Add VAST advertising to your video experience." icon="playlist" data-aos="fade-up" data-aos-delay="600" />
 
                 </div>
 

@@ -86,7 +86,7 @@
 
                                 <button
                                     class="mt-4 flex w-full items-center justify-center rounded-lg bg-[#C9A227] px-4 py-2.5 text-xs font-semibold text-black hover:bg-[#E5C766]">
-                                    Copy Embed Code
+                                    Copied Embed Code
                                 </button>
                             </div>
                         </div>
@@ -106,7 +106,7 @@ import generatePlayerConfig from '@/utils/playerConfig.js';
 import SourceFreeSettings from '../settings/SourceFreeSettings.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
-import renderIframe from '@/utils/EmbedRender.js';
+import Handler from '@/utils/EmbedRender.js';
 
 const page = usePage();
 
@@ -417,7 +417,7 @@ const generate = async () => {
         title: player.value.name,
         configuration: player.value
     }).then(async (response) => {
-        const iframe = renderIframe(response.data?.player?.token_id);
+        const iframe = Handler.renderIframe(response.data?.player?.token_id);
         try {
             await window?.navigator?.clipboard?.writeText(iframe);
             console.log("Copied successfully");

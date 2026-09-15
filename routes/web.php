@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubscriptionPackageController;
 use App\Http\Controllers\Admin\UserSubscription;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ProfileController;
@@ -22,6 +23,8 @@ Route::inertia('/embed', 'FreeEmbed')->name('embed');
 Route::inertia('/create', 'EmbedView')->name('create');
 Route::get('/pricing', [PageController::class, 'pricing'])->name('pricing');
 Route::inertia('/docs', 'Docs')->name('docs');
+Route::inertia('/contact', 'Contact')->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 
 // auth routes 

@@ -11,7 +11,7 @@
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createPinia } from 'pinia';
-import { createApp, h, DefineComponent } from 'vue';
+import { createApp, h, DefineComponent, onMounted } from 'vue';
 import VueTelInput from 'vue-tel-input';
 import Toast from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
@@ -80,7 +80,6 @@ createInertiaApp({
             app.mount(el);
         }
 
-                // Initialize AOS globally
         AOS.init({
             duration: 800,
             easing: 'ease-out-cubic',
@@ -91,7 +90,7 @@ createInertiaApp({
         // 4. Return the app instance (required for SSR)
         return app;
     },
-    
+
 
     // Optional: add progress bar configuration if needed
     progress: {

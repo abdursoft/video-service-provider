@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\AuthHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -19,24 +20,12 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        // $request->validate([
-        //     'cf-turnstile-response' => 'required',
-        // ]);
 
-        // $response = Http::asForm()->post(
-        //     'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-        //     [
-        //         'secret' => env('CLOUDFLARE_TURNSTILE_SECRET_KEY'),
-        //         'response' => $request->input('cf-turnstile-response'),
-        //         'remoteip' => $request->ip(),
-        //     ]
-        // );
+        $trunstile = (new AuthHelper())->trunstileToken($request->turnstile_token, $request->ip());
 
-        // if (!$response->json('success')) {
-        //     return back()
-        //         ->withErrors(['turnstile' => 'Bot verification failed. Try again.'])
-        //         ->withInput();
-        // }
+        if (!$trunstile) {
+            return back()->withErrors(['email' => 'Invalid verification token!']);
+        }
 
         // Logic for handling login
         $credentials = $request->only('email', 'password');
@@ -153,6 +142,13 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
+
+        $trunstile = (new AuthHelper())->trunstileToken($request->turnstile_token, $request->ip());
+
+        if (!$trunstile) {
+            return back()->withErrors(['email' => 'Invalid verification token!']);
+        }
+
 
         try {
             $users = User::count();

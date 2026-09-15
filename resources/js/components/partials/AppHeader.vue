@@ -39,6 +39,10 @@
                     Pricing
                 </Link>
 
+                <Link :href="route('contact')" class="text-sm text-white/70 transition hover:text-[#C9A227]">
+                    Contact
+                </Link>
+
                 <Link v-if="isAuthenticated" :href="route('auth.dashboard')"
                     class="text-sm text-white/70 transition hover:text-[#C9A227]">
                     Dashboard

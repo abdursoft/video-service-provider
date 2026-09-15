@@ -112,30 +112,32 @@ class SubscriptionPackageController extends Controller
         DB::beginTransaction();
 
         try {
-            /*
+            if ($amount > 0) {
+                /*
              * Create Stripe Product
              */
-            $product = $this->stripe->products->create([
-                'name'        => $validated['name'],
-                'description' => $validated['description'] ?? null,
-            ]);
+                $product = $this->stripe->products->create([
+                    'name'        => $validated['name'],
+                    'description' => $validated['description'] ?? null,
+                ]);
 
-            /*
+                /*
              * Create Stripe Price
              */
-            $price = $this->stripe->prices->create([
-                'product'     => $product->id,
+                $price = $this->stripe->prices->create([
+                    'product'     => $product->id,
 
-                'unit_amount' => $amount,
+                    'unit_amount' => $amount,
 
-                'currency'    => strtolower(
-                    $validated['currency']
-                ),
+                    'currency'    => strtolower(
+                        $validated['currency']
+                    ),
 
-                'recurring'   => [
-                    'interval' => $validated['interval'],
-                ],
-            ]);
+                    'recurring'   => [
+                        'interval' => $validated['interval'],
+                    ],
+                ]);
+            }
 
             /*
              * Create local package
@@ -159,10 +161,10 @@ class SubscriptionPackageController extends Controller
                 $validated['interval'],
 
                 'stripe_product_id' =>
-                $product->id,
+                $product->id ?? NULL,
 
                 'stripe_price_id'   =>
-                $price->id,
+                $price->id ?? NULL,
 
                 'features'          =>
                 $validated['features'] ?? [],

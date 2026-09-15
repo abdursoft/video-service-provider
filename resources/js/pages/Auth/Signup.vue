@@ -138,7 +138,11 @@
 
                         <!-- Submit -->
 
-                        <button type="submit" :disabled="form.processing"
+                        <div class="flex items-center justify-center flex-column">
+                            <div ref="turnstileContainer"></div>
+                        </div>
+
+                        <button type="submit" :disabled="form.processing || !turnstileToken"
                             class="w-full rounded-xl bg-[#C9A227] px-4 py-3.5 text-sm font-semibold text-black transition hover:bg-[#d9b63b] disabled:opacity-50">
                             {{
                                 form.processing
@@ -149,6 +153,7 @@
                     </form>
 
                     <!-- Login -->
+
 
                     <div class="mt-7 border-t border-white/[0.06] pt-6 text-center">
                         <p class="text-xs text-white/30">
@@ -172,6 +177,11 @@
 
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3';
+import handler from '@/utils/EmbedRender'
+import { onMounted, ref } from 'vue';
+
+const turnstileContainer = ref(null);
+const turnstileToken = ref('');
 
 const form = useForm({
     name: '',
@@ -179,9 +189,19 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     terms: false,
+    turnstile_token: ''
 });
 
 const submit = () => {
+    form.turnstile_token = turnstileToken;
     form.post(route('auth.register'));
 };
+
+onMounted(async () => {
+    await handler.loadTrunstile();
+    setTimeout(async () => {
+        const token = await handler.getTurnstileToken(turnstileContainer.value);
+        turnstileToken.value = token;
+    }, 500);
+});
 </script>

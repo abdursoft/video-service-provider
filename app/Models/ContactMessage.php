@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContactMessage extends Model
 {
-    //
+    protected $fillable = [
+        'name',
+        'email',
+        'subject',
+        'description',
+        'is_replay'
+    ];
 }

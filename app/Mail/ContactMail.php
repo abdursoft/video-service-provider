@@ -10,15 +10,19 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable
+class ContactMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
-    {
+    public function __construct(
+        public string $name,
+        public string $email,
+        public string $subject,
+        public string $message,
+    ) {
         //
     }
 
@@ -28,7 +32,10 @@ class ContactMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Contact Mail',
+            subject: 'New Contact Message: ' . $this->subject,
+            replyTo: [
+                $this->email => $this->name,
+            ],
         );
     }
 
@@ -38,7 +45,7 @@ class ContactMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mails.contact',
         );
     }
 

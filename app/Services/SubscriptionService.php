@@ -337,7 +337,10 @@ class SubscriptionService
             $subscription->update([
                 'status' => 'active',
                 'ends_at' => \Carbon\Carbon::createFromTimestamp(
-                    $stripeSubscription->current_period_end
+                    $stripeSubscription->items->data[0]->current_period_end ?? time()
+                ),
+                'cancel_at_period_end' => \Carbon\Carbon::createFromTimestamp(
+                    $stripeSubscription->items->data[0]->current_period_end ?? time()
                 ),
             ]);
         }

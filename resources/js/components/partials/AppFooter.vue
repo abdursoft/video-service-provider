@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
+
+</script>
+
 <template>
     <footer class="border-t border-white/10 bg-[#050505]">
         <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
@@ -35,17 +40,17 @@
                     </h3>
 
                     <div class="mt-5 flex flex-col gap-3 text-sm">
-                        <RouterLink to="/embed" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link :href="route('embed')" class="text-white/45 transition hover:text-[#C9A227]">
                             Embed
-                        </RouterLink>
+                        </Link>
 
-                        <RouterLink to="/pricing" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link :href="route('pricing')" class="text-white/45 transition hover:text-[#C9A227]">
                             Pricing
-                        </RouterLink>
+                        </Link>
 
-                        <a href="#" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link :href="route('docs')" class="text-white/45 transition hover:text-[#C9A227]">
                             Documentation
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
@@ -56,21 +61,18 @@
                     </h3>
 
                     <div class="mt-5 flex flex-col gap-3 text-sm">
-                        <a href="#" class="text-white/45 transition hover:text-[#C9A227]">
-                            About
-                        </a>
 
-                        <a href="#" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link href="#" class="text-white/45 transition hover:text-[#C9A227]">
                             Contact
-                        </a>
+                        </Link>
 
-                        <a href="#" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link href="#" class="text-white/45 transition hover:text-[#C9A227]">
                             Privacy
-                        </a>
+                        </Link>
 
-                        <a href="#" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link href="#" class="text-white/45 transition hover:text-[#C9A227]">
                             Terms
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

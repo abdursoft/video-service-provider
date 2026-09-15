@@ -52,7 +52,8 @@ class SubscriptionController extends Controller
 
         $userSubscription = $this->subscriptionService
             ->handleCheckoutSessionCompleted(
-                $session, $user
+                $session,
+                $user
             );
 
 
@@ -65,19 +66,20 @@ class SubscriptionController extends Controller
     /**
      * change subscription
      */
-    public function change(Request $request){
+    public function change(Request $request)
+    {
 
         $active = UserSubscription::with('subscriptionPackage')->where('user_id', auth()->id())->where('status', 'active')->latest()->first();
         $target = SubscriptionPackage::findOrFail($request->input('package_id'));
         $user = $request->user();
-        
+
         $this->subscriptionService->switchPlan(
             $user,
             $active,
             $target
         );
 
-        return Inertia::render('Subscription/Index')->with('success','Subscription package successfully updated');
+        return Inertia::render('Subscription/Index')->with('success', 'Subscription package successfully updated');
     }
 
     /**
@@ -89,13 +91,27 @@ class SubscriptionController extends Controller
     ) {
         $user = $request->user();
 
-        $session = $this->subscriptionService
+        if ($package->slug == 'free') {
+            UserSubscription::create([
+                'user_id' => $user->id,
+                'subscription_package_id' => $package->id,
+                'stripe_price_id' => $package->stripe_price_id,
+                'status' => 'active',
+                'price' => $package->amount,
+                'currency' => $package->currency,
+                'starts_at' => now(),
+                'ends_at' => now()->addMonth(),
+            ]);
+            return redirect()->route('auth.dashboard');
+        }else{
+            $session = $this->subscriptionService
             ->createCheckoutSession(
                 $user,
                 $package
             );
+            return Inertia::location($session->url);
+        }
 
-        return Inertia::location($session->url);
     }
 
     /**
@@ -119,6 +135,29 @@ class SubscriptionController extends Controller
         );
     }
 
+
+    /**
+     * Cancel subscription.
+     */
+    public function resume(Request $request)
+    {
+        $subscription =
+            $request->user()->activeSubscription;
+
+        abort_unless($subscription, 404);
+
+        $this->subscriptionService->cancel(
+            $subscription,
+            false
+        );
+
+        return back()->with(
+            'success',
+            'Your subscription will be canceled at the end of the billing period.'
+        );
+    }
+
+
     /**
      * Cancel immediately.
      */
@@ -139,5 +178,4 @@ class SubscriptionController extends Controller
             'Subscription canceled successfully.'
         );
     }
-    
 }

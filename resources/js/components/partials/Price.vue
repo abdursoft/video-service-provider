@@ -37,6 +37,8 @@ const isCurrentPlan = (packageId: number) => {
     <div
     v-for="(plan, index) in packages"
     :key="plan.id"
+     data-aos="fade-right"
+    :data-aos-delay="index * 100"
     class="group relative flex flex-col overflow-hidden rounded-[28px] border p-7 transition-all duration-500"
     :class="
         plan.is_popular

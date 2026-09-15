@@ -108,7 +108,7 @@
 
                                 <button
                                     class="mt-4 flex w-full items-center justify-center rounded-lg bg-[#C9A227] px-4 py-2.5 text-xs font-semibold text-black hover:bg-[#E5C766]">
-                                    Copy Embed Code
+                                    Copied Embed Code
                                 </button>
                             </div>
                         </div>
@@ -137,6 +137,7 @@ import generatePlayerConfig from '@/utils/playerConfig.js';
 import AdvancedSettings from '../settings/AdvancedSettings.vue';
 import PlaybackSettings from '../settings/PlaybackSettings.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
+import Handler from '@/utils/EmbedRender.js';
 
 const activeTab = ref('source');
 const isEdit = ref(false);
@@ -451,15 +452,40 @@ onMounted(() => {
     }
 });
 
-const generate = () => {
+const generate = async () => {
+    generated.value = true;
+
     form.configuration = player.value;
-    form.title         = player.value?.name;
-    
+    form.title = player.value?.name;
+
     if(isEdit && page.props?.player?.token_id){
-        form.put(route('user.players.update', page.props?.player?.token_id));
+        await axios.put(route('user.players.update', page.props?.player?.token_id), {
+            title: player.value.name,
+            configuration: player.value
+        }).then(async (response) => {
+            const iframe = Handler.renderIframe(response.data?.player?.token_id);
+            try {
+                await window?.navigator?.clipboard?.writeText(iframe);
+                console.log("Copied successfully");
+            } catch (error) {
+                console.error("Copy failed:", error);
+            }
+        });
     }else{
-        form.post(route('user.players.store'));
+        await axios.post(route('user.players.store'), {
+            title: player.value.name,
+            configuration: player.value
+        }).then(async (response) => {
+            const iframe = Handler.renderIframe(response.data?.player?.token_id);
+            try {
+                await window?.navigator?.clipboard?.writeText(iframe);
+                console.log("Copied successfully");
+            } catch (error) {
+                console.error("Copy failed:", error);
+            }
+        });
     }
-    
+
+
 };
 </script>

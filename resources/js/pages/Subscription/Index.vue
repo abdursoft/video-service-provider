@@ -312,11 +312,11 @@ defineOptions({
                     <div class="flex flex-col gap-3 border-t border-white/10 p-7 sm:flex-row">
 
                         <button
-                            @click="showChangeModal = true"
-                            class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl bg-[#C9A227] px-5 py-3 text-sm font-semibold text-black transition hover:bg-[#d8b431]"
+                            v-if="subscription.ends_at && subscription.status == 'active'"
+                            class="cursor-none inline-flex items-center justify-center gap-2 rounded-xl bg-slate-500 px-5 py-3 text-sm font-semibold text-gray-200 transition hover:bg-[#d8b431]"
                         >
                             <CreditCard :size="17" />
-                            Change Plan
+                            Subscription Terminated
                         </button>
 
 

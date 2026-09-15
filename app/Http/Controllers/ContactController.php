@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AuthHelper;
+use App\Jobs\ContactHandler;
 use App\Models\ContactMessage;
-use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -25,7 +25,7 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function submitContactForm(Request $request)
+    public function store(Request $request)
     {
 
         // Validate the request data
@@ -33,24 +33,23 @@ class ContactController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'subject' => 'required|string|max:255',
-            'message' => 'required|string',
+            'description' => 'required|string',
         ]);
+
+        $trunstile = (new AuthHelper())->trunstileToken($request->turnstile_token, $request->ip());
+
+        if (!$trunstile) {
+            return back()->withErrors(['email' => 'Invalid verification token!']);
+        }
 
 
         try {
             // Send the email (implementation not shown here)
-            Mail::to(env('ADMIN_EMAIL'))->send(new \App\Mail\ContactMail(
-                $request->input('name'),
-                $request->input('email'),
-                $request->input('subject'),
-                $request->input('message')
-            ));
+            ContactHandler::dispatch($request->name, $request->email, $request->subject, $request->description)->onQueue('high');
             ContactMessage::create($validate);
-            Toastr::success('Your message has been sent successfully', 'Message sent');
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Thanks for your query! We\'ll reach you shortly');
         } catch (\Throwable $th) {
-            Toastr::error('Couldn\'t send your message to site providers, please try again', 'Sending failed!');
-            return back();
+            return redirect()->back()->with('error', 'Sorry! We couldn\'t process your query.');
         }
     }
 }
