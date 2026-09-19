@@ -1,7 +1,7 @@
 <template>
     <div class="relative min-h-screen overflow-hidden bg-[#050505] text-white">
         <!-- Background glow -->
-
+        <Head title="Signin" />
         <div
             class="pointer-events-none absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C9A227]/[0.04] blur-[120px]" />
 
@@ -160,7 +160,7 @@
 </template>
 
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 import handler from '@/utils/EmbedRender'
 

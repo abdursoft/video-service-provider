@@ -80,12 +80,14 @@ createInertiaApp({
             app.mount(el);
         }
 
-        AOS.init({
-            duration: 800,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 80,
-        });
+        if (typeof document !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-out-cubic',
+                once: false,
+                offset: 80,
+            });
+        }
 
         // 4. Return the app instance (required for SSR)
         return app;

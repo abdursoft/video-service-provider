@@ -1,7 +1,7 @@
 <template>
     <div class="relative min-h-screen overflow-hidden bg-[#050505] text-white">
         <!-- Glow -->
-
+        <Head title="Signup" />
         <div
             class="pointer-events-none absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#C9A227]/[0.035] blur-[140px]" />
 
@@ -176,7 +176,7 @@
 </template>
 
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import handler from '@/utils/EmbedRender'
 import { onMounted, ref } from 'vue';
 

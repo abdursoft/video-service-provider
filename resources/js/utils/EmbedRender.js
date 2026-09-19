@@ -1,7 +1,7 @@
-function renderIframe(token, appURL, title = 'Video Player') {
+function renderIframe(token, appURL, title = 'Video Player', path='player') {
     return `<div class="esyPlayer-embed">
     <iframe
-        src="${appURL}/watch/${token}"
+        src="${appURL}/${path}/${token}"
         title="${title}"
         allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen>

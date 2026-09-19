@@ -138,6 +138,7 @@ import AdvancedSettings from '../settings/AdvancedSettings.vue';
 import PlaybackSettings from '../settings/PlaybackSettings.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import Handler from '@/utils/EmbedRender.js';
+import axios from 'axios';
 
 const activeTab = ref('source');
 const isEdit = ref(false);
@@ -390,6 +391,13 @@ const defaultPlayer = {
         loop: false,
     },
 
+    loader:{
+        enabled: true,
+        icon:1,
+        color:'white',
+        activeColor:'yellow'
+    },
+
     advanced: {
         encrypt: false,
 
@@ -463,7 +471,7 @@ const generate = async () => {
             title: player.value.name,
             configuration: player.value
         }).then(async (response) => {
-            const iframe = Handler.renderIframe(response.data?.player?.token_id);
+            const iframe = Handler.renderIframe(response.data?.player?.token_id, page.props.appURL, form.title);
             try {
                 await window?.navigator?.clipboard?.writeText(iframe);
                 console.log("Copied successfully");
@@ -476,7 +484,7 @@ const generate = async () => {
             title: player.value.name,
             configuration: player.value
         }).then(async (response) => {
-            const iframe = Handler.renderIframe(response.data?.player?.token_id);
+            const iframe = Handler.renderIframe(response.data?.player?.token_id, page.props.appURL, form.title);
             try {
                 await window?.navigator?.clipboard?.writeText(iframe);
                 console.log("Copied successfully");

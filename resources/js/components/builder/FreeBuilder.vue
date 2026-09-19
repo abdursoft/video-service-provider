@@ -79,8 +79,8 @@
                                         <p class="mt-1 text-[11px] text-white/40">
                                             Your embed is ready to use.
                                         </p>
+                                        <p class="small text-yellow-500" v-if="!user.id">Free player will be deleted after 72 hours!</p>
                                     </div>
-
                                     <span class="text-[#C9A227]"> ✓ </span>
                                 </div>
 
@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import VideoPlayer from '@/components/player/VideoPlayer.vue';
 
@@ -109,6 +109,8 @@ import axios from 'axios';
 import Handler from '@/utils/EmbedRender.js';
 
 const page = usePage();
+
+const user = computed(() => page.props.auth.user);
 
 const activeTab = ref('source');
 
@@ -332,6 +334,13 @@ const defaultPlayer = {
         borderRadius: 50,
     },
 
+
+    loader:{
+        enabled: true,
+        icon:1,
+        color:'yellow'
+    },
+
     thumbnail: {
         enabled: false,
         url: '',
@@ -417,7 +426,7 @@ const generate = async () => {
         title: player.value.name,
         configuration: player.value
     }).then(async (response) => {
-        const iframe = Handler.renderIframe(response.data?.player?.token_id);
+        const iframe = Handler.renderIframe(response.data?.player?.token_id, page.props.appURL, form.title, 'watch');
         try {
             await window?.navigator?.clipboard?.writeText(iframe);
             console.log("Copied successfully");

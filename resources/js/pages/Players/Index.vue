@@ -2,7 +2,26 @@
     <!-- Main Content -->
     <main class="mx-auto px-5 py-8 lg:px-8">
 
+        <Head title="User players" />
 
+        <div class="flex items-center justify-end mb-3">
+            <Link v-if="can('players.create')" :href="route('user.players.create')"
+                class="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3 transition hover:border-[#C9A227]/30 hover:bg-white/[0.04]">
+            <div class="rounded-lg bg-[#C9A227]/10 p-2 text-[#C9A227]">
+                +
+            </div>
+
+            <div>
+                <p class="text-sm font-medium text-white">
+                    New Player
+                </p>
+
+                <p class="text-[11px] text-gray-600">
+                    Create a new player
+                </p>
+            </div>
+            </Link>
+        </div>
         <!-- Stats -->
         <div class="grid grid-cols-2 gap-4
                     lg:grid-cols-4">
@@ -341,7 +360,8 @@ import {
 } from 'lucide-vue-next'
 
 import UserLayout from '@/layouts/UserLayout.vue'
-import { router, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import Handler from '@/utils/EmbedRender.js';
 
 
 defineOptions({
@@ -350,6 +370,12 @@ defineOptions({
 
 const page = usePage();
 
+
+const permissions = page.props.auth?.permissions ?? []
+
+const can = (permission) => {
+    return permissions.includes(permission)
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -484,9 +510,14 @@ const editPlayer = (player) => {
 }
 
 
-const embedPlayer = (player) => {
+const embedPlayer = async (player) => {
     console.log('Embed player:', player)
-    // Open embed modal
+    const iframe = Handler.renderIframe(player.id, page.props.appURL, player.name);
+    try {
+        await window?.navigator?.clipboard?.writeText(iframe);
+    } catch (error) {
+        console.error("Copy failed:", error);
+    }
 }
 
 

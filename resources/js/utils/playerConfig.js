@@ -5,6 +5,8 @@ export default function generatePlayerConfig(settings) {
     const leftControls = [];
     const rightControls = [];
 
+    console.log(settings.loader);
+
     configs.controls.list.forEach((control) => {
         switch (control.placement) {
             case 'left':
@@ -66,6 +68,8 @@ export default function generatePlayerConfig(settings) {
         iconColor: configs?.iconColor,
 
         iconHoverColor: configs.appearance.iconHoverColor,
+
+        loader:[1,'yellow'],
 
         progress: {
             css: {
@@ -197,6 +201,16 @@ export default function generatePlayerConfig(settings) {
             },
         };
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Loader icon
+    |--------------------------------------------------------------------------
+    */
+   if(configs.loader.enabled){
+    config.loader[0] = configs.loader.icon + 1;
+    config.loader[1] = configs.loader.activeColor;
+   }
 
     /*
     |--------------------------------------------------------------------------

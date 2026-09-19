@@ -1,5 +1,6 @@
 <template>
     <div class="min-h-screen bg-[#050505] text-white">
+        <Head title="Player Documentation" />
         <AppHeader />
         <!-- =====================================================
              DOCUMENTATION LAYOUT
@@ -598,7 +599,7 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 import Badge from '@/components/docs/Badge.vue';

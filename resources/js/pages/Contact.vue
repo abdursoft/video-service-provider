@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-[#050505] text-white">
-
+        <Head title="Contact Us" />
         <!-- Hero -->
         <section class="relative overflow-hidden px-5 pb-16 pt-24 sm:px-8 lg:px-12 lg:pb-20 lg:pt-32">
 
@@ -420,7 +420,7 @@
 
 <script setup>
 import Home from '@/layouts/Home.vue';
-import { Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import handler from '@/utils/EmbedRender'
 import { onMounted, ref } from 'vue';
 

@@ -91,9 +91,7 @@ class PlayerController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()
-            ->route('players.index')
-            ->with('success', 'Player created successfully.');
+        return response()->json(['player' => $player], 200);
     }
 
 
@@ -188,9 +186,7 @@ class PlayerController extends Controller
             'configuration' => $validated['configuration'] ?? null,
         ]);
 
-        return redirect()
-            ->route('players.index')
-            ->with('success', 'Player updated successfully.');
+        return response()->json(['player' => $player], 200);
     }
 
     /**
