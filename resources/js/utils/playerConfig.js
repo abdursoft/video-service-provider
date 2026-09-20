@@ -5,8 +5,6 @@ export default function generatePlayerConfig(settings) {
     const leftControls = [];
     const rightControls = [];
 
-    console.log(settings.loader);
-
     configs.controls.list.forEach((control) => {
         switch (control.placement) {
             case 'left':
@@ -26,7 +24,7 @@ export default function generatePlayerConfig(settings) {
 
         name:configs?.name,
 
-        src: videoURL,
+        src: configs.advanced.encrypt == true ? btoa(videoURL) : videoURL,
 
         encrypt: configs.advanced.encrypt,
 
@@ -207,7 +205,7 @@ export default function generatePlayerConfig(settings) {
     | Loader icon
     |--------------------------------------------------------------------------
     */
-   if(configs.loader.enabled){
+   if(configs?.loader?.enabled){
     config.loader[0] = configs.loader.icon + 1;
     config.loader[1] = configs.loader.activeColor;
    }
@@ -266,7 +264,6 @@ export default function generatePlayerConfig(settings) {
         config.vast = configs.advertising.vastUrl;
     }
 
-    console.log(config);
-
+    console.log(config)
     return config;
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 
 </script>
 
@@ -66,11 +67,11 @@ import { Link } from '@inertiajs/vue3';
                             Contact
                         </Link>
 
-                        <Link href="#" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link :href="route('privacy')" class="text-white/45 transition hover:text-[#C9A227]">
                             Privacy
                         </Link>
 
-                        <Link href="#" class="text-white/45 transition hover:text-[#C9A227]">
+                        <Link :href="route('terms')" class="text-white/45 transition hover:text-[#C9A227]">
                             Terms
                         </Link>
                     </div>

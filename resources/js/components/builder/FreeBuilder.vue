@@ -79,7 +79,7 @@
                                         <p class="mt-1 text-[11px] text-white/40">
                                             Your embed is ready to use.
                                         </p>
-                                        <p class="small text-yellow-500" v-if="!user.id">Free player will be deleted after 72 hours!</p>
+                                        <p class="small text-yellow-500" v-if="!user">Free player will be deleted after 72 hours!</p>
                                     </div>
                                     <span class="text-[#C9A227]"> ✓ </span>
                                 </div>

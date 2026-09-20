@@ -17,7 +17,7 @@ import {
     watch,
 } from 'vue'
 
-import Player from './player'
+import {Player} from './player'
 
 const props = defineProps({
     config: {

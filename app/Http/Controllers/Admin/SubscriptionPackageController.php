@@ -60,7 +60,7 @@ class SubscriptionPackageController extends Controller
             'amount'      => [
                 'required',
                 'numeric',
-                'min:0.5',
+                'min:0',
             ],
 
             'currency'    => [

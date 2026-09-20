@@ -16,6 +16,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserRoleController;
+use Inertia\Inertia;
 
 // general pages 
 Route::inertia('/', 'Home')->name('home');
@@ -25,6 +26,15 @@ Route::get('/pricing', [PageController::class, 'pricing'])->name('pricing');
 Route::inertia('/docs', 'Docs')->name('docs');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+
+// privacy and terms 
+Route::get('/terms-and-conditions', function () {
+    return Inertia::render('TermsAndConditions');
+})->name('terms');
+Route::get('/privacy-policy', function () {
+    return Inertia::render('PrivacyPolicy');
+})->name('privacy');
 
 
 // auth routes 

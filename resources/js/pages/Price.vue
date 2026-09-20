@@ -65,10 +65,10 @@
 
                     <button type="button" class="rounded-lg px-5 py-2.5
                                text-xs font-medium
-                               transition" :class="billing === 'monthly'
+                               transition" :class="billing === 'month'
                                     ? 'bg-white/10 text-white'
                                     : 'text-white/35'
-                                " @click="billing = 'monthly'">
+                                " @click="billing = 'month'">
                         Monthly
                     </button>
 
@@ -76,10 +76,10 @@
                     <button type="button" class="flex items-center gap-2
                                rounded-lg px-5 py-2.5
                                text-xs font-medium
-                               transition" :class="billing === 'yearly'
+                               transition" :class="billing === 'year'
                                     ? 'bg-white/10 text-white'
                                     : 'text-white/35'
-                                " @click="billing = 'yearly'">
+                                " @click="billing = 'year'">
                         Yearly
 
                         <span class="rounded-md
@@ -112,7 +112,7 @@
                 <PricingCard v-for="plan in plans" :key="plan.id" :plan="plan" :price="getPrice(plan)"
                     :billing="billing" :featured="plan.featured" /> -->
 
-                    <Price :packages="page?.props?.packages" />
+                    <Price :packages="plans" />
             </div>
 
 
@@ -267,7 +267,7 @@
 <script setup>
 
 import { Head, Link, usePage } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import Price from '@/components/partials/Price.vue'
 import PricingCard from '@/components/pricing/PricingCard.vue'
@@ -282,111 +282,17 @@ defineOptions({
 
 const page = usePage();
 
-const billing = ref('monthly')
+const billing = ref('month')
 
-
-const plans = [
-    {
-        id: 'free',
-
-        name: 'Free',
-
-        title: 'Start creating',
-
-        description:
-            'Explore the player builder and create your first embeds.',
-
-        monthly: 0,
-
-        yearly: 0,
-
-        button: 'Get started',
-
-        href: '/register',
-
-        featureTitle: 'Includes:',
-
-        features: [
-            'Custom video player',
-            'Iframe embedding',
-            'Basic player controls',
-            'Responsive player',
-            'Basic customization',
-            'Public embed links',
-        ],
-    },
-
-
-    {
-        id: 'pro',
-
-        name: 'Pro',
-
-        title: 'For creators',
-
-        description:
-            'More customization and powerful tools for professional video publishing.',
-
-        monthly: 9,
-
-        yearly: 7,
-
-        button: 'Start Pro',
-
-        href: '/register',
-
-        featured: true,
-
-        featureTitle:
-            'Everything in Free, plus:',
-
-        features: [
-            'Advanced player customization',
-            'Custom watermark / logo',
-            'Custom video thumbnail',
-            'Playlist builder',
-            'Subtitle support',
-            'Advanced player controls',
-            'Custom player branding',
-            'Analytics',
-        ],
-    },
-
-
-    {
-        id: 'business',
-
-        name: 'Business',
-
-        title: 'For publishers',
-
-        description:
-            'Advanced tools for teams, publishers and video monetization.',
-
-        monthly: 29,
-
-        yearly: 23,
-
-        button: 'Start Business',
-
-        href: '/register',
-
-        featureTitle:
-            'Everything in Pro, plus:',
-
-        features: [
-            'VAST advertising',
-            'Advanced ad controls',
-            'Multiple playlists',
-            'Advanced analytics',
-            'Player presets',
-            'Higher usage limits',
-            'Priority support',
-            'Commercial usage',
-        ],
-    },
-]
-
+const plans = computed(() => {
+    return page.props?.packages?.filter(
+        item => item?.interval === billing.value
+    ) ?? [];
+});
+console.log(plans.value)
+onMounted(() => {
+    console.log(plans.value)
+});
 
 const faqs = [
     {

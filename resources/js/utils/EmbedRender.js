@@ -40,6 +40,10 @@ async function loadTrunstile() {
     document.head.appendChild(turnstileScript);
 }
 
+function exportToken(){
+    return btoa('esyPlayer.com');
+}
+
 function getTurnstileToken(container) {
     return new Promise((resolve, reject) => {
         const render = () => {
@@ -79,5 +83,6 @@ function getTurnstileToken(container) {
 export default {
     loadTrunstile,
     renderIframe,
+    exportToken,
     getTurnstileToken,
 };

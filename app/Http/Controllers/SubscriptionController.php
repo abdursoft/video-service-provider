@@ -73,13 +73,16 @@ class SubscriptionController extends Controller
         $target = SubscriptionPackage::findOrFail($request->input('package_id'));
         $user = $request->user();
 
-        $this->subscriptionService->switchPlan(
-            $user,
-            $active,
-            $target
-        );
+        if ($active->amount > 0 || !in_array($active->slug,['free', 'freee'])) {
+            $this->subscriptionService->switchPlan(
+                $user,
+                $active,
+                $target
+            );
 
-        return Inertia::render('Subscription/Index')->with('success', 'Subscription package successfully updated');
+            return Inertia::render('Subscription/Index')->with('success', 'Subscription package successfully updated');
+        }
+        $this->subscribe($request, $target);
     }
 
     /**
@@ -91,7 +94,7 @@ class SubscriptionController extends Controller
     ) {
         $user = $request->user();
 
-        if ($package->slug == 'free') {
+        if ($package->slug == 'free' || $package->amount <= 0) {
             UserSubscription::create([
                 'user_id' => $user->id,
                 'subscription_package_id' => $package->id,
@@ -103,15 +106,14 @@ class SubscriptionController extends Controller
                 'ends_at' => now()->addMonth(),
             ]);
             return redirect()->route('auth.dashboard');
-        }else{
+        } else {
             $session = $this->subscriptionService
-            ->createCheckoutSession(
-                $user,
-                $package
-            );
+                ->createCheckoutSession(
+                    $user,
+                    $package
+                );
             return Inertia::location($session->url);
         }
-
     }
 
     /**

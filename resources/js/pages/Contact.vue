@@ -120,7 +120,7 @@
                             </p>
 
                             <p class="mt-1 text-sm font-medium text-white/75">
-                                Usually within 24 hours
+                                Usually within 2 hours
                             </p>
                         </div>
                     </div>

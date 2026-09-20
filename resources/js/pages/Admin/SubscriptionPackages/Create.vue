@@ -23,6 +23,7 @@ const form = useForm({
     },
 
     is_active: true,
+    is_populer:false,
     sort_order: 0,
 });
 
@@ -118,7 +119,7 @@ const submit = () => {
                             <input
                                 v-model="form.amount"
                                 type="number"
-                                min="0.5"
+                                min="0"
                                 step="0.01"
                                 placeholder="19.99"
                                 class="h-11 min-w-0 flex-1 rounded-r-xl border border-white/[0.07] bg-white/[0.025] px-4 text-sm outline-none focus:border-[#C9A227]/40"
@@ -239,7 +240,7 @@ const submit = () => {
             </div>
 
             <!-- Limits -->
-            <div class="rounded-2xl border border-white/[0.07] bg-[#0D0D0D]">
+            <div class=" hidden rounded-2xl border border-white/[0.07] bg-[#0D0D0D]">
                 <div class="border-b border-white/[0.07] px-5 py-4">
                     <h2 class="text-sm font-semibold">Package Limits</h2>
 
@@ -308,6 +309,26 @@ const submit = () => {
 
                     <input
                         v-model="form.is_active"
+                        type="checkbox"
+                        class="h-5 w-5 accent-[#C9A227]"
+                    />
+                </label>
+            </div>
+
+            <div
+                class="rounded-2xl border border-white/[0.07] bg-[#0D0D0D] p-5"
+            >
+                <label class="flex cursor-pointer items-center justify-between">
+                    <div>
+                        <p class="text-xs font-semibold">Is Popluer ?</p>
+
+                        <p class="mt-1 text-[10px] text-white/30">
+                            Is this subscriptions more popluer
+                        </p>
+                    </div>
+
+                    <input
+                        v-model="form.is_populer"
                         type="checkbox"
                         class="h-5 w-5 accent-[#C9A227]"
                     />

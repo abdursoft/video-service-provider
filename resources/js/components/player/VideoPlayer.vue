@@ -17,7 +17,7 @@ import {
     watch,
 } from 'vue'
 
-import Player from './player'
+import {Player} from './player'
 
 const props = defineProps({
     config: {
@@ -96,8 +96,6 @@ const createPlayer = async () => {
         */
 
         const config = toRaw(props.config)
-
-        console.log('Creating player:', config)
 
 
         /*
