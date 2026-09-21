@@ -7,9 +7,7 @@
             <!-- Logo -->
             <Link @click="mobileOpen = false" href="/" class="group flex items-center gap-3">
                 <div class="flex h-12 w-12 items-center justify-center">
-                    <span class="text-sm font-bold text-[#C9A227]">
-                        <img src="/logo.png" alt="">
-                    </span>
+                    <img src="/logo.png" alt="ESY Player" class="h-12 w-12 object-contain">
                 </div>
 
                 <div class="leading-none">
@@ -27,139 +25,226 @@
             <!-- Desktop Navigation -->
             <nav class="hidden items-center gap-8 md:flex">
 
-                <Link :href="route('embed')" class="text-sm text-white/70 transition hover:text-[#C9A227]">
-                    Embed
+                <!-- Main Navigation -->
+                <Link v-for="item in navigation" :key="item.route" :href="route(item.route)"
+                    class="text-sm transition-colors duration-200" :class="isActive(item.route)
+                        ? 'text-[#C9A227]'
+                        : 'text-white/70 hover:text-[#C9A227]'">
+                    {{ item.name }}
                 </Link>
 
-                <Link :href="route('docs')" class="text-sm text-white/70 transition hover:text-[#C9A227]">
-                    Docs
-                </Link>
 
-                <Link :href="route('pricing')" class="text-sm text-white/70 transition hover:text-[#C9A227]">
-                    Pricing
-                </Link>
-
-                <Link :href="route('contact')" class="text-sm text-white/70 transition hover:text-[#C9A227]">
-                    Contact
-                </Link>
-
+                <!-- Dashboard -->
                 <Link v-if="isAuthenticated" :href="route('auth.dashboard')"
-                    class="text-sm text-white/70 transition hover:text-[#C9A227]">
+                    class="text-sm transition-colors duration-200" :class="isActive('auth.dashboard')
+                        ? 'text-[#C9A227]'
+                        : 'text-white/70 hover:text-[#C9A227]'">
                     Dashboard
                 </Link>
 
+
                 <!-- Authenticated -->
                 <button v-if="isAuthenticated" @click="logout" type="button" class="rounded-full border border-white/15 px-5 py-2.5
-               text-sm font-medium text-white transition
-               hover:border-[#C9A227]/50 hover:text-[#C9A227]">
+                           text-sm font-medium text-white transition-all duration-200
+                           hover:border-[#C9A227]/50 hover:text-[#C9A227]">
                     Logout
                 </button>
 
+
                 <!-- Guest -->
                 <Link v-else :href="route('login')" class="rounded-full border border-white/15 px-5 py-2.5
-               text-sm font-medium text-white transition
-               hover:border-[#C9A227]/50 hover:text-[#C9A227]">
+                           text-sm font-medium text-white transition-all duration-200
+                           hover:border-[#C9A227]/50 hover:text-[#C9A227]">
                     Login
                 </Link>
 
             </nav>
 
 
-            <!-- Mobile button -->
-            <button @click="mobileOpen = !mobileOpen" class="cursor-pointer flex h-10 w-10 items-center justify-center rounded-lg
-                       border border-white/10 md:hidden">
+            <!-- Mobile Menu Button -->
+            <button @click="mobileOpen = !mobileOpen" type="button" class="flex h-10 w-10 cursor-pointer items-center justify-center
+                       rounded-lg border border-white/10 md:hidden" aria-label="Toggle navigation">
+                <!-- Hamburger -->
                 <svg v-if="!mobileOpen" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
 
+                <!-- Close -->
                 <svg v-else class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 6l12 12M6 18L18 6" />
                 </svg>
             </button>
+
         </div>
 
 
-        <!-- Mobile navigation -->
-        <Transition enter-active-class="transition duration-200" enter-from-class="opacity-0 -translate-y-2"
-            enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-150"
+        <!-- Mobile Navigation -->
+        <Transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 -translate-y-2"
+            enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-150 ease-in"
             leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 -translate-y-2">
-            <div v-if="mobileOpen"
-                class="border-t border-white/10 bg-[#050505]/95 px-5 py-5 backdrop-blur-xl md:hidden">
+            <div v-if="mobileOpen" class="border-t border-white/10 bg-[#050505]/95
+                       px-5 py-5 backdrop-blur-xl md:hidden">
                 <nav class="flex flex-col gap-2">
 
-                    <Link @click="mobileOpen = false" :href="route('embed')" class="rounded-lg px-4 py-3 text-white/80
-               hover:bg-white/5 hover:text-[#C9A227]">
-                        Embed
+                    <!-- Main Navigation -->
+                    <Link v-for="item in navigation" :key="item.route" @click="mobileOpen = false"
+                        :href="route(item.route)" class="rounded-lg px-4 py-3 transition-all duration-200" :class="isActive(item.route)
+                            ? 'bg-[#C9A227]/10 text-[#C9A227]'
+                            : 'text-white/80 hover:bg-white/5 hover:text-[#C9A227]'">
+                        {{ item.name }}
                     </Link>
 
-                    <Link @click="mobileOpen = false" :href="route('docs')"
-                        class="rounded-lg px-4 py-3 text-white/80
-               hover:bg-white/5 hover:text-[#C9A227]">
-                        Docs
-                    </Link>
-
-                    <Link @click="mobileOpen = false" :href="route('pricing')" class="rounded-lg px-4 py-3 text-white/80
-               hover:bg-white/5 hover:text-[#C9A227]">
-                        Pricing
-                    </Link>
 
                     <!-- Guest -->
                     <Link v-if="!isAuthenticated" @click="mobileOpen = false" :href="route('login')" class="mt-2 rounded-lg bg-[#C9A227] px-4 py-3
-               text-center font-medium text-black
-               transition hover:bg-[#E5C766]">
+                               text-center font-medium text-black
+                               transition-colors duration-200
+                               hover:bg-[#E5C766]">
                         Login
                     </Link>
 
+
                     <!-- Authenticated -->
                     <template v-else>
-                        <Link @click="logout" class="rounded-lg px-4 py-3 text-white/80
-               hover:bg-white/5 hover:text-[#C9A227]">
+
+                        <!-- Dashboard -->
+                        <Link @click="mobileOpen = false" :href="route('auth.dashboard')"
+                            class="rounded-lg px-4 py-3 transition-all duration-200" :class="isActive('auth.dashboard')
+                                ? 'bg-[#C9A227]/10 text-[#C9A227]'
+                                : 'text-white/80 hover:bg-white/5 hover:text-[#C9A227]'">
                             Dashboard
                         </Link>
 
+
+                        <!-- Logout -->
                         <button @click="logout" type="button" class="mt-2 rounded-lg bg-[#C9A227] px-4 py-3
-               text-center font-medium text-black
-               transition hover:bg-[#E5C766]">
+                                   text-center font-medium text-black
+                                   transition-colors duration-200
+                                   hover:bg-[#E5C766]">
                             Logout
                         </button>
+
                     </template>
 
                 </nav>
             </div>
         </Transition>
+
     </header>
 </template>
+
 
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
+
 const page = usePage()
+
+
+/*
+|--------------------------------------------------------------------------
+| Navigation
+|--------------------------------------------------------------------------
+*/
+
+const navigation = [
+    {
+        name: 'Embed',
+        route: 'embed',
+    },
+    {
+        name: 'Docs',
+        route: 'docs',
+    },
+    {
+        name: 'Pricing',
+        route: 'pricing',
+    },
+    {
+        name: 'Contact',
+        route: 'contact',
+    },
+]
+
+
+/*
+|--------------------------------------------------------------------------
+| State
+|--------------------------------------------------------------------------
+*/
 
 const scrolled = ref(false)
 const mobileOpen = ref(false)
+
+
+/*
+|--------------------------------------------------------------------------
+| Authentication
+|--------------------------------------------------------------------------
+*/
 
 const isAuthenticated = computed(() => {
     return !!page.props.auth?.user
 })
 
+
+/*
+|--------------------------------------------------------------------------
+| Active Route
+|--------------------------------------------------------------------------
+*/
+
+const isActive = (routeName) => {
+    return route().current(routeName)
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Scroll Handler
+|--------------------------------------------------------------------------
+*/
+
 const handleScroll = () => {
     scrolled.value = window.scrollY > 20
 }
 
+
+/*
+|--------------------------------------------------------------------------
+| Logout
+|--------------------------------------------------------------------------
+*/
+
 const logout = () => {
-    router.post(route('logout'), {}, {
-        onFinish: () => {
-            mobileOpen.value = false
+    router.post(
+        route('logout'),
+        {},
+        {
+            onFinish: () => {
+                mobileOpen.value = false
+            },
         }
-    })
+    )
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| Lifecycle
+|--------------------------------------------------------------------------
+*/
 
 onMounted(() => {
     window.addEventListener('scroll', handleScroll)
+
+    // Set initial state
+    handleScroll()
 })
+
 
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll)

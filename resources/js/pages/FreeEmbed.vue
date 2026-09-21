@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FreeBuilder from '@/components/builder/FreeBuilder.vue';
+import SeoHead from '@/components/partials/SeoHead.vue';
 import Home from '@/layouts/Home.vue';
 import { Head } from '@inertiajs/vue3';
 
@@ -11,7 +12,9 @@ defineOptions({
 <template>
     <div class="min-h-screen bg-[#050505] text-white">
 
-        <Head title="Embed Player" description="Embed your custom video player on your website" />
+        <SeoHead title="Create an Embeddable Video Player — ESY Player"
+            description="Create a customizable, responsive video player and embed it on any website with ESY Player. Configure controls, branding, playlists, playback settings, and more."
+            url="https://esyplayer.com/embed" />
         <main class="mx-auto max-w-7xl px-4 pt-28 pb-20 sm:px-6 lg:px-8">
             <!-- Page heading -->
             <div class="mb-8">

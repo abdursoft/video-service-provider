@@ -2,7 +2,9 @@
 
     <div class="bg-[#050505] text-white">
 
-        <Head title="Pricing" />
+        <SeoHead title="Pricing — ESY Player"
+            description="Explore ESY Player plans and pricing. Choose the right video player plan for your website, business, and online video experience."
+            url="https://esyplayer.com/pricing" />
         <!-- =====================================================
              HERO
         ====================================================== -->
@@ -66,8 +68,8 @@
                     <button type="button" class="rounded-lg px-5 py-2.5
                                text-xs font-medium
                                transition" :class="billing === 'month'
-                                    ? 'bg-white/10 text-white'
-                                    : 'text-white/35'
+                                ? 'bg-white/10 text-white'
+                                : 'text-white/35'
                                 " @click="billing = 'month'">
                         Monthly
                     </button>
@@ -77,8 +79,8 @@
                                rounded-lg px-5 py-2.5
                                text-xs font-medium
                                transition" :class="billing === 'year'
-                                    ? 'bg-white/10 text-white'
-                                    : 'text-white/35'
+                                ? 'bg-white/10 text-white'
+                                : 'text-white/35'
                                 " @click="billing = 'year'">
                         Yearly
 
@@ -108,11 +110,11 @@
             <div class="mx-auto grid max-w-7xl
                        items-stretch gap-5
                        lg:grid-cols-3">
-<!-- 
+                <!-- 
                 <PricingCard v-for="plan in plans" :key="plan.id" :plan="plan" :price="getPrice(plan)"
                     :billing="billing" :featured="plan.featured" /> -->
 
-                    <Price :packages="plans" />
+                <Price :packages="plans" />
             </div>
 
 
@@ -151,13 +153,17 @@
                 <div class="mt-12 grid gap-4
                            sm:grid-cols-2 lg:grid-cols-4">
 
-                    <SummaryCard title="Embed" description="Generate a ready-to-use iframe for any website." icon="embed" data-aos="fade-up" data-aos-delay="100"/>
+                    <SummaryCard title="Embed" description="Generate a ready-to-use iframe for any website."
+                        icon="embed" data-aos="fade-up" data-aos-delay="100" />
 
-                    <SummaryCard title="Customize" description="Control colors, controls, branding and behavior." icon="customize" data-aos="fade-up" data-aos-delay="200" />
+                    <SummaryCard title="Customize" description="Control colors, controls, branding and behavior."
+                        icon="customize" data-aos="fade-up" data-aos-delay="200" />
 
-                    <SummaryCard title="Playlist" description="Put multiple videos into one seamless player." icon="playlist" data-aos="fade-up" data-aos-delay="400" />
+                    <SummaryCard title="Playlist" description="Put multiple videos into one seamless player."
+                        icon="playlist" data-aos="fade-up" data-aos-delay="400" />
 
-                    <SummaryCard title="Monetize" description="Add VAST advertising to your video experience." icon="playlist" data-aos="fade-up" data-aos-delay="600" />
+                    <SummaryCard title="Monetize" description="Add VAST advertising to your video experience."
+                        icon="playlist" data-aos="fade-up" data-aos-delay="600" />
 
                 </div>
 
@@ -274,6 +280,7 @@ import PricingCard from '@/components/pricing/PricingCard.vue'
 import PricingFaq from '@/components/pricing/PricingFaq.vue'
 import SummaryCard from '@/components/pricing/SummaryCard.vue'
 import Home from '@/layouts/Home.vue'
+import SeoHead from '@/components/partials/SeoHead.vue'
 
 
 defineOptions({
