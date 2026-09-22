@@ -54,7 +54,6 @@ import { useAuthStore } from '@/stores/Auth';
 const model = defineModel()
 
 const authStore = useAuthStore();
-console.log(authStore.status)
 
 defineProps({
     title: String,

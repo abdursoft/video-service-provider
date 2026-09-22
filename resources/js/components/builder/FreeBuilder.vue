@@ -369,6 +369,35 @@ const defaultPlayer = {
         loop: false,
     },
 
+    drm: {
+        enabled: false,
+
+        systems: {
+            widevine: {
+                enabled: false,
+                licenseUrl: '',
+            },
+
+            playready: {
+                enabled: false,
+                licenseUrl: '',
+            },
+
+            fairplay: {
+                enabled: false,
+                licenseUrl: '',
+                certificateUrl: '',
+            },
+
+            clearkey: {
+                enabled: false,
+                licenseUrl: '',
+            },
+        },
+
+        credentials: false,
+    },
+
     advanced: {
         encrypt: false,
 

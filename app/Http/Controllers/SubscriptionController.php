@@ -73,7 +73,7 @@ class SubscriptionController extends Controller
         $target = SubscriptionPackage::findOrFail($request->input('package_id'));
         $user = $request->user();
 
-        if ($active->amount > 0 || !in_array($active->slug,['free', 'freee'])) {
+        if ($active->price > 0 || !in_array($active?->subscriptionPackage?->slug,['free', 'freee'])) {
             $this->subscriptionService->switchPlan(
                 $user,
                 $active,
@@ -82,7 +82,7 @@ class SubscriptionController extends Controller
 
             return Inertia::render('Subscription/Index')->with('success', 'Subscription package successfully updated');
         }
-        $this->subscribe($request, $target);
+        return $this->subscribe($request, $target);
     }
 
     /**
@@ -90,7 +90,7 @@ class SubscriptionController extends Controller
      */
     public function subscribe(
         Request $request,
-        SubscriptionPackage $package
+        SubscriptionPackage $package,
     ) {
         $user = $request->user();
 
@@ -112,6 +112,7 @@ class SubscriptionController extends Controller
                     $user,
                     $package
                 );
+
             return Inertia::location($session->url);
         }
     }

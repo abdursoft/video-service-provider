@@ -1,6 +1,6 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { computed, onMounted, onBeforeUnmount, watch } from 'vue'
 
 const props = defineProps({
     title: {
@@ -70,6 +70,42 @@ const jsonLd = computed(() => {
             url: props.url,
         }
     )
+})
+
+let jsonLdScript = null
+
+const updateJsonLd = () => {
+    if (!jsonLdScript) {
+        jsonLdScript = document.createElement('script')
+
+        jsonLdScript.type = 'application/ld+json'
+        jsonLdScript.setAttribute('data-esy-seo', 'json-ld')
+
+        document.head.appendChild(jsonLdScript)
+    }
+
+    jsonLdScript.textContent = JSON.stringify(jsonLd.value)
+}
+
+onMounted(() => {
+    updateJsonLd()
+})
+
+watch(
+    jsonLd,
+    () => {
+        updateJsonLd()
+    },
+    {
+        deep: true,
+    }
+)
+
+onBeforeUnmount(() => {
+    if (jsonLdScript) {
+        jsonLdScript.remove()
+        jsonLdScript = null
+    }
 })
 </script>
 
@@ -155,10 +191,5 @@ const jsonLd = computed(() => {
             name="theme-color"
             :content="themeColor"
         />
-
-        <!-- Structured Data -->
-        <script type="application/ld+json">
-            {{ JSON.stringify(jsonLd) }}
-        </script>
     </Head>
 </template>

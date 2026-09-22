@@ -42,6 +42,8 @@ class HandleInertiaRequests extends Middleware
 
             'appURL' => config('app.url'),
 
+            'route' => $request->route()?->uri,
+
             'auth' => [
                 'user' => $request->user(),
                 'roles' => $request->user()?->getRoleNames(),

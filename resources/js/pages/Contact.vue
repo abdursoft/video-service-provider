@@ -40,9 +40,9 @@
 
 
         <!-- Contact Section -->
-        <section class="px-5 pb-24 sm:px-8 lg:px-12 lg:pb-32">
+        <section class="px-5 py-24 sm:px-8 lg:px-12 lg:pb-32">
 
-            <div class="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+            <div class="mx-auto max-w-6xl flex flex-col md:flex-row justify-center gap-6">
 
                 <!-- Contact Information -->
                 <div class="rounded-3xl border border-white/[0.07]

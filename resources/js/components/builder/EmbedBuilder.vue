@@ -54,6 +54,8 @@
 
                         <SubtitlesSettings v-if="activeTab === 'subtitles'" v-model="player" />
 
+                        <DRM v-if="activeTab == 'drm'" v-model="player" />
+
                         <AdvancedSettings v-if="activeTab === 'advanced'" v-model="player" />
                     </div>
 
@@ -139,6 +141,7 @@ import PlaybackSettings from '../settings/PlaybackSettings.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import Handler from '@/utils/EmbedRender.js';
 import axios from 'axios';
+import DRM from '../settings/DRM.vue';
 
 const activeTab = ref('source');
 const isEdit = ref(false);
@@ -396,6 +399,35 @@ const defaultPlayer = {
         icon:1,
         color:'white',
         activeColor:'yellow'
+    },
+
+    drm: {
+        enabled: false,
+
+        systems: {
+            widevine: {
+                enabled: false,
+                licenseUrl: '',
+            },
+
+            playready: {
+                enabled: false,
+                licenseUrl: '',
+            },
+
+            fairplay: {
+                enabled: false,
+                licenseUrl: '',
+                certificateUrl: '',
+            },
+
+            clearkey: {
+                enabled: false,
+                licenseUrl: '',
+            },
+        },
+
+        credentials: false,
     },
 
     advanced: {

@@ -232,7 +232,7 @@
 
         <div
             data-aos="fade-up" data-aos-delay="500"
-            class="relative mx-auto flex min-h-screen max-w-7xl items-center px-5 pb-20 pt-32 lg:px-8"
+            class="relative mx-auto flex max-w-7xl items-center px-5 pb-10 pt-12 lg:px-8"
         >
         <img src="/images/dashboard.png" alt="Esy Player Dashboard">
         </div>

@@ -27,7 +27,7 @@
 
                 <!-- Main Navigation -->
                 <Link v-for="item in navigation" :key="item.route" :href="route(item.route)"
-                    class="text-sm transition-colors duration-200" :class="isActive(item.route)
+                    class="text-sm transition-colors duration-200" :class="item.active
                         ? 'text-[#C9A227]'
                         : 'text-white/70 hover:text-[#C9A227]'">
                     {{ item.name }}
@@ -90,7 +90,7 @@
 
                     <!-- Main Navigation -->
                     <Link v-for="item in navigation" :key="item.route" @click="mobileOpen = false"
-                        :href="route(item.route)" class="rounded-lg px-4 py-3 transition-all duration-200" :class="isActive(item.route)
+                        :href="route(item.route)" class="rounded-lg px-4 py-3 transition-all duration-200" :class="item.active
                             ? 'bg-[#C9A227]/10 text-[#C9A227]'
                             : 'text-white/80 hover:bg-white/5 hover:text-[#C9A227]'">
                         {{ item.name }}
@@ -138,10 +138,11 @@
 
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { route } from 'ziggy-js';
 
 
-const page = usePage()
+const page = usePage();
 
 
 /*
@@ -150,24 +151,28 @@ const page = usePage()
 |--------------------------------------------------------------------------
 */
 
-const navigation = [
+let navigation = ref([
     {
         name: 'Embed',
         route: 'embed',
+        active: false,
     },
     {
         name: 'Docs',
         route: 'docs',
+        active: false,
     },
     {
         name: 'Pricing',
         route: 'pricing',
+        active: false,
     },
     {
         name: 'Contact',
         route: 'contact',
+        active: false
     },
-]
+])
 
 
 /*
@@ -198,7 +203,7 @@ const isAuthenticated = computed(() => {
 */
 
 const isActive = (routeName) => {
-    return route().current(routeName)
+    return route()?.current(routeName)
 }
 
 
@@ -231,6 +236,18 @@ const logout = () => {
     )
 }
 
+
+watch(
+    () => page.url,
+    (uri) => {
+        navigation.value?.filter(item => {
+            item.active = uri == `/${item.route}` ? true : false;
+        });
+    },{
+        immediate:true,
+        deep:true
+    }
+);
 
 /*
 |--------------------------------------------------------------------------

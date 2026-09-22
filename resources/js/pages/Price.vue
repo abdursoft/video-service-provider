@@ -272,11 +272,10 @@
 
 <script setup>
 
-import { Head, Link, usePage } from '@inertiajs/vue3'
-import { computed, onMounted, ref } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
 
 import Price from '@/components/partials/Price.vue'
-import PricingCard from '@/components/pricing/PricingCard.vue'
 import PricingFaq from '@/components/pricing/PricingFaq.vue'
 import SummaryCard from '@/components/pricing/SummaryCard.vue'
 import Home from '@/layouts/Home.vue'
@@ -295,10 +294,6 @@ const plans = computed(() => {
     return page.props?.packages?.filter(
         item => item?.interval === billing.value
     ) ?? [];
-});
-console.log(plans.value)
-onMounted(() => {
-    console.log(plans.value)
 });
 
 const faqs = [

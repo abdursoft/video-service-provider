@@ -22,7 +22,7 @@ export default function generatePlayerConfig(settings) {
     const config = {
         id: 'player',
 
-        name:configs?.name,
+        name: configs?.name,
 
         src: configs.advanced.encrypt == true ? btoa(videoURL) : videoURL,
 
@@ -48,6 +48,8 @@ export default function generatePlayerConfig(settings) {
 
         pip: configs.playback.pip,
 
+        loop: configs.playback.loop,
+
         share: configs.controls.share,
 
         controls: {
@@ -67,7 +69,11 @@ export default function generatePlayerConfig(settings) {
 
         iconHoverColor: configs.appearance.iconHoverColor,
 
-        loader:[1,'yellow'],
+        loader: [1, 'yellow'],
+
+        hls: {
+            debug: false,
+        },
 
         progress: {
             css: {
@@ -131,7 +137,7 @@ export default function generatePlayerConfig(settings) {
             justifyContent: "center",
             bottom: '118px',
             right: '10px',
-            padding:'8px 10px',
+            padding: '8px 10px',
             zIndex: 5,
             background: "rgba(0,0,0,0.5)",
             transform: "rotate(-90deg)",
@@ -205,10 +211,10 @@ export default function generatePlayerConfig(settings) {
     | Loader icon
     |--------------------------------------------------------------------------
     */
-   if(configs?.loader?.enabled){
-    config.loader[0] = configs.loader.icon + 1;
-    config.loader[1] = configs.loader.activeColor;
-   }
+    if (configs?.loader?.enabled) {
+        config.loader[0] = configs.loader.icon + 1;
+        config.loader[1] = configs.loader.activeColor;
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -249,10 +255,82 @@ export default function generatePlayerConfig(settings) {
     | 360VR videos
     |--------------------------------------------------------------------------
     */
-   if(configs.source.type == '360'){
-    config.v360 = true;
-   }
+    if (configs.source.type == '360') {
+        config.v360 = true;
+    }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | DRM videos
+    |--------------------------------------------------------------------------
+    */
+    if (configs.drm?.enabled) {
+        const drm = configs.drm;
+        const drmSystems = {};
+
+        // Widevine
+        if (
+            drm.systems?.widevine?.enabled &&
+            drm.systems.widevine?.licenseUrl
+        ) {
+            drmSystems['com.widevine.alpha'] = {
+                licenseUrl: drm.systems.widevine.licenseUrl,
+            };
+        }
+
+        // PlayReady
+        if (
+            drm.systems?.playready?.enabled &&
+            drm.systems.playready?.licenseUrl
+        ) {
+            drmSystems['com.microsoft.playready'] = {
+                licenseUrl: drm.systems.playready.licenseUrl,
+            };
+        }
+
+        // FairPlay
+        if (
+            drm.systems?.fairplay?.enabled &&
+            drm.systems.fairplay?.licenseUrl
+        ) {
+            drmSystems['com.apple.fps'] = {
+                licenseUrl: drm.systems.fairplay.licenseUrl,
+
+                ...(drm.systems.fairplay?.certificateUrl
+                    ? {
+                        serverCertificateUrl:
+                            drm.systems.fairplay.certificateUrl,
+                    }
+                    : {}),
+            };
+        }
+
+        // ClearKey
+        if (
+            drm.systems?.clearkey?.enabled &&
+            drm.systems.clearkey?.licenseUrl
+        ) {
+            drmSystems['org.w3.clearkey'] = {
+                licenseUrl: drm.systems.clearkey.licenseUrl,
+            };
+        }
+
+        // Only modify HLS when a DRM system actually exists
+        if (Object.keys(drmSystems).length > 0) {
+            config.hls = {
+                ...(config.hls || {}),
+                emeEnabled: true,
+                drmSystems,
+            };
+
+            if (drm.credentials) {
+                config.hls.licenseXhrSetup = (xhr) => {
+                    xhr.withCredentials = true;
+                };
+            }
+        }
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -264,6 +342,5 @@ export default function generatePlayerConfig(settings) {
         config.vast = configs.advertising.vastUrl;
     }
 
-    console.log(config)
     return config;
 }
