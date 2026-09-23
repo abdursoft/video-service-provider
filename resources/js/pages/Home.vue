@@ -17,7 +17,7 @@
         title="ESY Player — Customizable Video Player & Embeddable Video Player"
         description="Create customizable, responsive video players and embed them anywhere with ESY Player. Configure your player, branding, controls, playlists, and more."
         url="https://esyplayer.com/"
-        image="https://esyplayer.com/og-image.png"
+        image="https://esyplayer.com/logo.png"
         image-alt="ESY Player — Customizable Video Player"
         :structured-data="structuredData"
     />
@@ -26,7 +26,6 @@
 </template>
 
 <script setup>
-import { Head } from '@inertiajs/vue3'
 import CustomersSection from '@/components/sections/CustomersSection.vue'
 import FaqSection from '@/components/sections/FaqSection.vue'
 import FeatureSection from '@/components/sections/FeatureSection.vue'

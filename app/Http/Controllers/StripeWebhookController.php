@@ -45,7 +45,6 @@ class StripeWebhookController extends Controller
                 $signature,
                 config('services.stripe.webhook_secret')
             );
-
         } catch (\UnexpectedValueException $e) {
 
             Log::warning('Stripe webhook invalid payload', [
@@ -55,7 +54,6 @@ class StripeWebhookController extends Controller
             return response()->json([
                 'message' => 'Invalid payload.',
             ], 400);
-
         } catch (SignatureVerificationException $e) {
 
             Log::warning('Stripe webhook invalid signature', [
@@ -140,7 +138,6 @@ class StripeWebhookController extends Controller
 
                     break;
             }
-
         } catch (\Throwable $e) {
 
             Log::error('Stripe webhook processing failed', [
@@ -162,7 +159,7 @@ class StripeWebhookController extends Controller
         ]);
     }
 
-        protected function checkoutCompleted($session): void
+    protected function checkoutCompleted($session): void
     {
         $localSubscriptionId =
             $session->metadata->subscription_id ?? null;
@@ -186,7 +183,7 @@ class StripeWebhookController extends Controller
                 'Local subscription not found.',
                 [
                     'local_subscription_id' =>
-                        $localSubscriptionId,
+                    $localSubscriptionId,
                 ]
             );
 
@@ -244,7 +241,7 @@ class StripeWebhookController extends Controller
         );
     }
 
-        protected function syncSubscription(
+    protected function syncSubscription(
         UserSubscription $localSubscription,
         $stripeSubscription
     ): void {
@@ -281,7 +278,7 @@ class StripeWebhookController extends Controller
                 [
                     'stripe_price_id' => $stripePriceId,
                     'stripe_subscription_id' =>
-                        $stripeSubscription->id,
+                    $stripeSubscription->id,
                 ]
             );
 
@@ -294,17 +291,17 @@ class StripeWebhookController extends Controller
 
         $currentPeriodStart =
             $stripeSubscription->current_period_start
-                ? Carbon::createFromTimestamp(
-                    $stripeSubscription->current_period_start
-                )
-                : null;
+            ? Carbon::createFromTimestamp(
+                $stripeSubscription->current_period_start
+            )
+            : null;
 
         $currentPeriodEnd =
             $stripeSubscription->current_period_end
-                ? Carbon::createFromTimestamp(
-                    $stripeSubscription->current_period_end
-                )
-                : null;
+            ? Carbon::createFromTimestamp(
+                $stripeSubscription->current_period_end
+            )
+            : null;
 
         $localSubscription->update([
 
@@ -312,19 +309,19 @@ class StripeWebhookController extends Controller
              * Package
              */
             'subscription_package_id' =>
-                $package->id,
+            $package->id,
 
             /*
              * Stripe identifiers
              */
             'stripe_subscription_id' =>
-                $stripeSubscription->id,
+            $stripeSubscription->id,
 
             'stripe_subscription_item_id' =>
-                $item->id,
+            $item->id,
 
             'stripe_price_id' =>
-                $stripePriceId,
+            $stripePriceId,
 
             /*
              * Subscription state
@@ -342,47 +339,47 @@ class StripeWebhookController extends Controller
              * Dates
              */
             'starts_at' =>
-                $localSubscription->starts_at
-                    ?? now(),
+            $localSubscription->starts_at
+                ?? now(),
 
             'current_period_start' =>
-                $currentPeriodStart,
+            $currentPeriodStart,
 
             'current_period_end' =>
-                $currentPeriodEnd,
+            $currentPeriodEnd,
 
             'ends_at' =>
-                $stripeSubscription->cancel_at_period_end
-                    ? $currentPeriodEnd
-                    : null,
+            $stripeSubscription->cancel_at_period_end
+                ? $currentPeriodEnd
+                : null,
 
             /*
              * Cancellation
              */
             'cancel_at_period_end' =>
-                (bool) $stripeSubscription
-                    ->cancel_at_period_end,
+            (bool) $stripeSubscription
+                ->cancel_at_period_end,
 
             'canceled_at' =>
-                $stripeSubscription->canceled_at
-                    ? Carbon::createFromTimestamp(
-                        $stripeSubscription->canceled_at
-                    )
-                    : null,
+            $stripeSubscription->canceled_at
+                ? Carbon::createFromTimestamp(
+                    $stripeSubscription->canceled_at
+                )
+                : null,
 
             /*
              * Trial
              */
             'trial_ends_at' =>
-                $stripeSubscription->trial_end
-                    ? Carbon::createFromTimestamp(
-                        $stripeSubscription->trial_end
-                    )
-                    : null,
+            $stripeSubscription->trial_end
+                ? Carbon::createFromTimestamp(
+                    $stripeSubscription->trial_end
+                )
+                : null,
         ]);
     }
 
-        protected function subscriptionUpdated(
+    protected function subscriptionUpdated(
         $stripeSubscription
     ): void {
 
@@ -398,7 +395,7 @@ class StripeWebhookController extends Controller
                 'Local subscription not found for Stripe update.',
                 [
                     'stripe_subscription_id' =>
-                        $stripeSubscription->id,
+                    $stripeSubscription->id,
                 ]
             );
 
@@ -411,7 +408,7 @@ class StripeWebhookController extends Controller
         );
     }
 
-        protected function subscriptionDeleted(
+    protected function subscriptionDeleted(
         $stripeSubscription
     ): void {
 
@@ -436,7 +433,7 @@ class StripeWebhookController extends Controller
         ]);
     }
 
-        protected function paymentFailed(
+    protected function paymentFailed(
         $invoice
     ): void {
 
@@ -468,7 +465,7 @@ class StripeWebhookController extends Controller
     }
 
 
-        protected function invoicePaid(
+    protected function invoicePaid(
         $invoice
     ): void {
 
@@ -503,7 +500,7 @@ class StripeWebhookController extends Controller
         );
     }
 
-        protected function mapStripeStatus(
+    protected function mapStripeStatus(
         string $status
     ): string {
 

@@ -45,7 +45,7 @@
             <div class="mx-auto max-w-6xl flex flex-col md:flex-row justify-center gap-6">
 
                 <!-- Contact Information -->
-                <div class="rounded-3xl border border-white/[0.07]
+                <div class="w-full md:w-2/5 rounded-3xl border border-white/[0.07]
                            bg-[#0a0a0a] p-7 sm:p-8">
 
                     <div>
@@ -161,7 +161,7 @@
 
 
                 <!-- Form -->
-                <div class="rounded-3xl border border-white/[0.07]
+                <div class="w-full md:w-3/5 rounded-3xl border border-white/[0.07]
                            bg-[#0a0a0a] p-7 sm:p-8 lg:p-10">
 
                     <div class="mb-8">

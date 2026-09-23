@@ -342,7 +342,7 @@
 
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 import {
     Plus,
@@ -362,6 +362,7 @@ import {
 import UserLayout from '@/layouts/UserLayout.vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import Handler from '@/utils/EmbedRender.js';
+import { toast } from 'vue3-toastify';
 
 
 defineOptions({
@@ -385,37 +386,6 @@ const can = (permission) => {
 
 const search = ref('')
 const status = ref('all')
-
-
-/*
-|--------------------------------------------------------------------------
-| Stats
-|--------------------------------------------------------------------------
-*/
-
-// const stats = [
-//     {
-//         label: 'Total Players',
-//         value: 12,
-//         icon: Video,
-//     },
-//     {
-//         label: 'Active Players',
-//         value: 10,
-//         icon: PlayCircle,
-//     },
-//     {
-//         label: 'Total Views',
-//         value: '24.8K',
-//         icon: Eye,
-//     },
-//     {
-//         label: 'Monthly Views',
-//         value: '8.4K',
-//         icon: BarChart3,
-//     },
-// ]
-
 
 /*
 |--------------------------------------------------------------------------
@@ -493,28 +463,28 @@ const filteredPlayers = computed(() => {
 */
 
 const createPlayer = () => {
-    console.log('Create player')
     router.visit(route('user.players.create'))
 }
 
 
 const previewPlayer = (player) => {
-    console.log('Preview player:', player)
     window.open(route('player.render', player.id), '_blank');
 }
 
 
 const editPlayer = (player) => {
-    console.log('Edit player:', player)
     router.visit(route('user.players.edit', player.id))
 }
 
 
 const embedPlayer = async (player) => {
-    console.log('Embed player:', player)
     const iframe = Handler.renderIframe(player.id, page.props.appURL, player.name);
     try {
         await window?.navigator?.clipboard?.writeText(iframe);
+        toast.success('Code copied', {
+            position:'bottom-right',
+            theme:'dark'
+        });
     } catch (error) {
         console.error("Copy failed:", error);
     }

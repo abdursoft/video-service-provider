@@ -6,10 +6,10 @@ import { Link } from '@inertiajs/vue3';
 <template>
     <footer class="border-t border-white/10 bg-[#050505]">
         <div class="mx-auto max-w-7xl px-5 py-16 lg:px-8">
-            <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-12 grid-cols-2 lg:grid-cols-4">
                 <!-- Brand -->
-                <div class="lg:col-span-2">
-                    <div class="flex items-center gap-3">
+                <div class="col-span-2">
+                    <div class="flex items-center justify-center md:justify-start gap-3">
                         <div class="flex h-12 w-12 items-center justify-center">
                             <span class="text-sm font-bold text-[#C9A227]">
                                 <img src="/logo.png" alt="" />
@@ -78,7 +78,7 @@ import { Link } from '@inertiajs/vue3';
             </div>
 
             <div
-                class="mt-16 flex flex-col text-center justify-center md:justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/30 md:flex-row">
+                class="mt-16 flex flex-col text-center justify-center md:justify-between gap-2 border-t border-white/10 pt-6 text-xs text-white/30 md:flex-row">
                 <p>
                     © {{ new Date().getFullYear() }} ESY Player. All rights
                     reserved.
