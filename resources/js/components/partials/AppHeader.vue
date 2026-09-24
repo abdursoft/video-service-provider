@@ -139,8 +139,6 @@
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { route } from 'ziggy-js';
-
 
 const page = usePage();
 

@@ -57,10 +57,10 @@ import { router } from '@inertiajs/vue3'
                 </button>
 
                 <button
-                    @click="window.history.back()"
+                    @click="router.visit(route('home'))"
                     class="rounded-xl border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/[0.07]"
                 >
-                    Go Back
+                    Go Home
                 </button>
             </div>
 
