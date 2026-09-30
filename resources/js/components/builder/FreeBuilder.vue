@@ -130,6 +130,8 @@ const defaultPlayer = {
         youtubeApiKey: '',
     },
 
+    showProgress:true,
+
     playback: {
         autoplay: false,
         loop: false,

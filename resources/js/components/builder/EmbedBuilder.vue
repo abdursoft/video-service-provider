@@ -366,6 +366,8 @@ const defaultPlayer = {
         borderRadius: 50,
     },
 
+    showProgress:true,
+
     thumbnail: {
         enabled: false,
         url: '',

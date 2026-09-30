@@ -27,3 +27,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+/.zip
+.zip
+/videoIframe.zip

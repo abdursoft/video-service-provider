@@ -29,7 +29,7 @@ const defaultPlayer = {
 
     source: {
         type: 'url',
-        url: 'http://127.0.0.1:8000/output/manifest.mpd',
+        url: 'https://pub-78f497904d5e4f7ca831217d5b9cfa93.r2.dev/manifest.mpd',
         sources: [],
         youtubeApiKey: '',
     },
@@ -220,7 +220,7 @@ const defaultPlayer = {
     },
 
     branding: {
-        enabled: true,
+        enabled: false,
 
         logo: page.props?.appURL+'/logo.png',
 
