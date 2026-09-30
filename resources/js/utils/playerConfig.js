@@ -74,31 +74,24 @@ export default function generatePlayerConfig(settings) {
         hls: {
             debug: false,
         },
+        drm:{},
+
+        showProgress: configs?.showProgress,
 
         progress: {
             css: {
                 width: '98%',
-
                 height: `${configs.appearance.progressHeight}px`,
-
                 position: 'absolute',
-
                 bottom: '50px',
-
                 background: configs.appearance.progressBackground,
-
                 left: '1%',
-
                 right: '1%',
-
                 zIndex: 5,
-
+                display: configs?.showProgress ? 'flex' : 'none',
                 borderRadius: '4px',
-
                 cursor: 'pointer',
-
                 overflow: 'hidden',
-
                 transition: 'all 0.3s',
             },
 
@@ -262,7 +255,7 @@ export default function generatePlayerConfig(settings) {
 
     /*
     |--------------------------------------------------------------------------
-    | DRM videos
+    | DRM HLS videos
     |--------------------------------------------------------------------------
     */
     if (configs.drm?.enabled) {
@@ -326,6 +319,79 @@ export default function generatePlayerConfig(settings) {
 
             if (drm.credentials) {
                 config.hls.licenseXhrSetup = (xhr) => {
+                    xhr.withCredentials = true;
+                };
+            }
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DRM DASH videos
+    |--------------------------------------------------------------------------
+    */
+    if (configs.drm?.enabled) {
+        const drm = configs.drm;
+        const protectionData = {};
+
+        // Widevine
+        if (
+            drm.systems?.widevine?.enabled &&
+            drm.systems.widevine?.licenseUrl
+        ) {
+            protectionData['com.widevine.alpha'] = {
+                serverURL: drm.systems.widevine.licenseUrl,
+            };
+        }
+
+        // PlayReady
+        if (
+            drm.systems?.playready?.enabled &&
+            drm.systems.playready?.licenseUrl
+        ) {
+            protectionData['com.microsoft.playready'] = {
+                serverURL: drm.systems.playready.licenseUrl,
+            };
+        }
+
+        // FairPlay
+        if (
+            drm.systems?.fairplay?.enabled &&
+            drm.systems.fairplay?.licenseUrl
+        ) {
+            protectionData['com.apple.fps'] = {
+                serverURL: drm.systems.fairplay.licenseUrl,
+
+                ...(drm.systems.fairplay?.certificateUrl
+                    ? {
+                        serverCertificateUrl:
+                            drm.systems.fairplay.certificateUrl,
+                    }
+                    : {}),
+            };
+        }
+
+        // ClearKey
+        if (
+            drm.systems?.clearkey?.enabled &&
+            drm.systems.clearkey?.licenseUrl
+        ) {
+            protectionData['org.w3.clearkey'] = {
+                serverURL: drm.systems.clearkey.licenseUrl,
+            };
+        }
+
+        // Configure dash.js DRM
+        // Only modify HLS when a DRM system actually exists
+        if (Object.keys(protectionData).length > 0) {
+            config.dash = {
+                ...(config.dash || {}),
+                emeEnabled: true,
+                protectionData,
+            };
+
+            if (drm.credentials) {
+                config.dash.licenseXhrSetup = (xhr) => {
                     xhr.withCredentials = true;
                 };
             }

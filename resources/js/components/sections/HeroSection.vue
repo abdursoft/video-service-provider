@@ -160,9 +160,7 @@
                     <div
                         class="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0B0B0B] shadow-2xl shadow-black"
                     >
-                        <VideoPlayer
-                            poster="/images/demo-poster.jpg"
-                        />
+                        <HomeBuilder />
                     </div>
 
                     <!-- ========================================= -->
@@ -260,6 +258,7 @@ import {
     Globe,
     Rotate3D,
 } from 'lucide-vue-next';
+import HomeBuilder from '../builder/HomeBuilder.vue';
 
 
 const formats = [
