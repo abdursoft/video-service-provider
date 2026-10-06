@@ -58,7 +58,7 @@ const closeSidebar = () => {
             <div class="flex h-[76px] items-center border-b border-white/[0.07] px-6">
 
                 <Link
-                    :href="route('user.dashboard')"
+                    :href="route('home')"
                     class="flex items-center gap-3"
                     @click="closeSidebar"
                 >

@@ -19,8 +19,7 @@
                     Reset
                 </button>
 
-                <button @click="generate"
-                    :disabled="form.processing"
+                <button @click="generate" :disabled="form.processing"
                     class="rounded-lg cursor-pointer bg-[#C9A227] px-5 py-2 text-xs font-semibold text-black transition hover:bg-[#E5C766]">
                     {{ isEdit ? "Update" : "Generate" }} Player
                 </button>
@@ -142,19 +141,20 @@ import { useForm, usePage } from '@inertiajs/vue3';
 import Handler from '@/utils/EmbedRender.js';
 import axios from 'axios';
 import DRM from '../settings/DRM.vue';
+import { toast } from 'vue3-toastify';
 
 const activeTab = ref('source');
 const isEdit = ref(false);
 const page = usePage();
 
 const form = useForm({
-    configuration:null,
-    title:null
+    configuration: null,
+    title: null
 });
 
 const generated = ref(false);
 const defaultPlayer = {
-    name: 'My Player',
+    name: 'ESY Player',
 
     source: {
         type: 'url',
@@ -361,12 +361,12 @@ const defaultPlayer = {
 
         opacity: 100,
 
-        keyword:null,
+        keyword: null,
 
         borderRadius: 50,
     },
 
-    showProgress:true,
+    showProgress: true,
 
     thumbnail: {
         enabled: false,
@@ -396,11 +396,11 @@ const defaultPlayer = {
         loop: false,
     },
 
-    loader:{
+    loader: {
         enabled: true,
-        icon:1,
-        color:'white',
-        activeColor:'yellow'
+        icon: 1,
+        color: 'white',
+        activeColor: 'yellow'
     },
 
     drm: {
@@ -472,9 +472,9 @@ watch(
     () => player,
     (newPlayer) => {
         playerData.value = generatePlayerConfig(newPlayer.value);
-        if(page.props?.player?.title){
+        if (page.props?.player?.title) {
             isEdit.value = true;
-        }else{
+        } else {
             isEdit.value = false;
         }
     },
@@ -485,8 +485,8 @@ watch(
 );
 
 onMounted(() => {
-    
-    if(page.props?.player?.title){
+
+    if (page.props?.player?.title) {
         isEdit.value = true;
         player.value = {
             ...page.props?.player?.configuration
@@ -500,34 +500,56 @@ const generate = async () => {
     form.configuration = player.value;
     form.title = player.value?.name;
 
-    if(isEdit && page.props?.player?.token_id){
-        await axios.put(route('user.players.update', page.props?.player?.token_id), {
-            title: player.value.name,
-            configuration: player.value
-        }).then(async (response) => {
-            const iframe = Handler.renderIframe(response.data?.player?.token_id, page.props.appURL, form.title);
-            try {
-                await window?.navigator?.clipboard?.writeText(iframe);
-                console.log("Copied successfully");
-            } catch (error) {
-                console.error("Copy failed:", error);
-            }
-        });
-    }else{
-        await axios.post(route('user.players.store'), {
-            title: player.value.name,
-            configuration: player.value
-        }).then(async (response) => {
-            const iframe = Handler.renderIframe(response.data?.player?.token_id, page.props.appURL, form.title);
-            try {
-                await window?.navigator?.clipboard?.writeText(iframe);
-                console.log("Copied successfully");
-            } catch (error) {
-                console.error("Copy failed:", error);
-            }
-        });
+    try {
+        let response;
+
+        if (isEdit && page.props?.player?.token_id) {
+            response = await axios.put(
+                route(
+                    'user.players.update',
+                    page.props.player.token_id
+                ),
+                {
+                    title: player.value.name,
+                    configuration: player.value,
+                }
+            );
+        } else {
+            response = await axios.post(
+                route('user.players.store'),
+                {
+                    title: player.value.name,
+                    configuration: player.value,
+                }
+            );
+        }
+
+        // Success
+        const iframe = Handler.renderIframe(
+            response.data?.player?.token_id,
+            page.props.appURL,
+            form.title
+        );
+
+        try {
+            await navigator.clipboard.writeText(iframe);
+            toast.success('Embeded Copied successfully');
+        } catch (error) {
+            console.error('Copy failed:', error);
+        }
+
+    } catch (error) {
+
+        // 403 Forbidden
+        if (error.response?.status === 403) {
+            toast.error(error.response?.data?.message);
+            return;
+        }
     }
 
+    setTimeout(() => {
+        generated.value = false;
+    }, 400);
 
 };
 </script>

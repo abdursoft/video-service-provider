@@ -27,10 +27,9 @@ class StripeWebhookController extends Controller
     public function handle(Request $request)
     {
         $payload = $request->getContent();
+        $signature = $request->header('stripe-signature');
+        $secret = config('services.stripe.webhook.secret');
 
-        $signature = $request->header(
-            'Stripe-Signature'
-        );
 
         if (!$signature) {
             return response()->json([
@@ -43,7 +42,7 @@ class StripeWebhookController extends Controller
             $event = Webhook::constructEvent(
                 $payload,
                 $signature,
-                config('services.stripe.webhook_secret')
+                $secret
             );
         } catch (\UnexpectedValueException $e) {
 
@@ -151,6 +150,7 @@ class StripeWebhookController extends Controller
              */
             return response()->json([
                 'message' => 'Webhook processing failed.',
+                'error' => $e->getMessage()
             ], 500);
         }
 
@@ -320,20 +320,12 @@ class StripeWebhookController extends Controller
             'stripe_subscription_item_id' =>
             $item->id,
 
-            'stripe_price_id' =>
-            $stripePriceId,
 
             /*
              * Subscription state
              */
             'status' => $status,
 
-            /*
-             * Local package price
-             */
-            'price' => $package->price,
-
-            'currency' => $package->currency,
 
             /*
              * Dates
@@ -512,6 +504,8 @@ class StripeWebhookController extends Controller
             'past_due' => 'past_due',
 
             'unpaid' => 'unpaid',
+            'succeeded' => 'active',
+            'paid' => 'active',
 
             'canceled',
             'incomplete_expired' => 'expired',

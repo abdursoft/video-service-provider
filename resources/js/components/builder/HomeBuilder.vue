@@ -25,7 +25,7 @@ const form = useForm({
 
 const generated = ref(false);
 const defaultPlayer = {
-    name: 'My Player',
+    name: 'ESY Player',
 
     source: {
         type: 'url',

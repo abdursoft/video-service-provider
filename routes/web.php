@@ -65,7 +65,11 @@ Route::get(
     '/subscription/success',
     [SubscriptionController::class, 'success']
 )->name('subscription.success');
-Route::post(
+Route::get(
+    '/subscription/cancel',
+    [SubscriptionController::class, 'stripe_cancel']
+)->name('subscription.cancel');
+Route::any(
     '/stripe/webhook',
     [StripeWebhookController::class, 'handle']
 )->name('stripe.webhook');

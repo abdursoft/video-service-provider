@@ -26,6 +26,9 @@
                     <ToggleRow v-model="model.advanced.contextMenu" title="Context menu"
                         description="Hide default player context menu." premium />
 
+                    <ToggleRow v-model="model.showProgress" title="Progress Bar"
+                        description="Show/Hide player progress bar" premium />
+
                 </div>
 
             </section>
@@ -53,34 +56,9 @@
                         <label class="setting-label">
                             Player language
                         </label>
-
                         <select v-model="model.advanced.language" class="setting-input">
-                            <option value="EN">
-                                English
-                            </option>
-
-                            <option value="BN">
-                                Bengali
-                            </option>
-
-                            <option value="ES">
-                                Spanish
-                            </option>
-
-                            <option value="FR">
-                                French
-                            </option>
-
-                            <option value="DE">
-                                German
-                            </option>
-
-                            <option value="AR">
-                                Arabic
-                            </option>
-
-                            <option value="HI">
-                                Hindi
+                            <option v-for="(name, code) in languages" :key="code" :value="code">
+                                {{ name }}
                             </option>
                         </select>
 
@@ -167,16 +145,12 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
                         <template v-for="(icon, index) in loaders" :key="index">
 
-                            <svg
-                                v-html="icon.replaceAll(model.loader.color, 'currentColor')"
-                                :style="{
-                                    color: index === model.loader.icon
-                                        ? model.loader.activeColor
-                                        : model.loader.color
-                                }"
-                                class="w-8 h-8 my-3 cursor-pointer transition-colors duration-200"
-                                @click="model.loader.icon = index"
-                            ></svg>
+                            <svg v-html="icon.replaceAll(model.loader.color, 'currentColor')" :style="{
+                                color: index === model.loader.icon
+                                    ? model.loader.activeColor
+                                    : model.loader.color
+                            }" class="w-8 h-8 my-3 cursor-pointer transition-colors duration-200"
+                                @click="model.loader.icon = index"></svg>
 
                         </template>
                     </div>
@@ -293,7 +267,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/Auth.js';
 import SettingsHeader from './SettingsHeader.vue'
-import ToggleRow from './ToggleRow.vue'; 
+import ToggleRow from './ToggleRow.vue';
 const model = defineModel();
 const authStore = useAuthStore();
 
@@ -394,4 +368,26 @@ const loaders = [
     }"><animate id="svgSpinnersPulse32" fill="freeze" attributeName="r" begin="svgSpinnersPulse30.begin+0.8s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="0;11"/><animate fill="freeze" attributeName="opacity" begin="svgSpinnersPulse30.begin+0.8s" calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0"/></circle>`,
 ]
 
+
+const languages = {
+    EN: 'English',
+    BN: 'Bengali',
+    HN: 'Hindi',
+    HE: 'Hebrew',
+    RU: 'Russian',
+    SV: 'Swedish',
+    IT: 'Italian',
+    CN: 'Chinese',
+    JP: 'Japanese',
+    ID: 'Indonesian',
+    DA: 'Danish',
+    DE: 'German',
+    AR: 'Arabic',
+    UR: 'Urdu',
+    TH: 'Thai',
+    ES: 'Spanish',
+    FR: 'French',
+    PT: 'Portuguese',
+    KR: 'Korean',
+}
 </script>

@@ -64,6 +64,13 @@ class SubscriptionController extends Controller
     }
 
     /**
+     * Stripe cancel
+     */
+    public function stripe_cancel(){
+        return Inertia::render('Subscription/Cancel');
+    }
+
+    /**
      * change subscription
      */
     public function change(Request $request)

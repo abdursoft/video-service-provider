@@ -50,7 +50,7 @@ import { router } from '@inertiajs/vue3'
 
             <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
                 <button
-                    @click="router.visit('/admin/dashboard')"
+                    @click="router.visit(route('auth.dashboard'))"
                     class="rounded-xl bg-[#C9A227] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#D8B43A]"
                 >
                     Back to Dashboard

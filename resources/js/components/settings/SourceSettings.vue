@@ -42,12 +42,12 @@
             <!-- URL -->
 
             <div>
-                <label class="setting-label"> Video URL <small>(Enter an MP4, HLS (.m3u8), YouTube or supported media URL.)</small> </label>
+                <label class="setting-label"> Video URL <small>(Enter an MP4, WEBM, M3U8, MPD, YouTube, Vimeo.)</small> </label>
 
                 <textarea v-model="model.source.url" rows="4" class="setting-input resize-none"
                     placeholder="https://example.com/video.m3u8" />
 
-                <p class="setting-help">
+                <p class="setting-help !text-yellow-200">
                     Youtube and Vimeo's private video doesn't playable
                 </p>
             </div>

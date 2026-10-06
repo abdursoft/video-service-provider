@@ -77,21 +77,117 @@ class PlayerController extends Controller
                 'string',
                 'max:255',
             ],
-
+    
             'configuration' => [
                 'nullable',
                 'array',
             ],
         ]);
-
+    
+        $limits = [
+            'free' => [
+                'video' => 10,
+                'playlist' => 0,
+            ],
+            'professional' => [
+                'video' => -1,
+                'playlist' => 30,
+            ],
+            'business' => [
+                'video' => -1,
+                'playlist' => -1,
+            ],
+            'basic' => [
+                'video' => 2000,
+                'playlist' => 50,
+            ],
+            'plus' => [
+                'video' => -1,
+                'playlist' => 100,
+            ],
+            'premium' => [
+                'video' => -1,
+                'playlist' => -1,
+            ],
+        ];
+    
+        $user = auth()->user();
+    
+        $package = $user->package;
+    
+        if (! isset($limits[$package])) {
+            return response()->json([
+                'message' => 'Invalid subscription package.',
+            ], 403);
+        }
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Determine video or playlist
+        |--------------------------------------------------------------------------
+        */
+    
+        $sources = $validated['configuration']['source']['sources'] ?? [];
+    
+        $isPlaylist = is_array($sources) && count($sources) > 0;
+    
+        $type = $isPlaylist ? 'playlist' : 'video';
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Check limit
+        |--------------------------------------------------------------------------
+        */
+    
+        $limit = $limits[$package][$type];
+    
+        // -1 = unlimited
+        if ($limit !== -1) {
+    
+            $currentCount = Player::where('user_id', $user->id)
+                ->where(function ($query) use ($type) {
+    
+                    if ($type === 'playlist') {
+                        $query->whereRaw(
+                            "JSON_LENGTH(JSON_EXTRACT(configuration, '$.source.sources')) > 0"
+                        );
+                    } else {
+                        $query->whereRaw(
+                            "JSON_LENGTH(JSON_EXTRACT(configuration, '$.source.sources')) = 0"
+                        )->orWhereRaw(
+                            "JSON_EXTRACT(configuration, '$.source.sources') IS NULL"
+                        );
+                    }
+    
+                })
+                ->count();
+    
+            if ($currentCount >= $limit) {
+                return response()->json([
+                    'message' => "You have reached your {$type} limit.",
+                    'type' => $type,
+                    'limit' => $limit,
+                    'current' => $currentCount,
+                ], 403);
+            }
+        }
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Create player
+        |--------------------------------------------------------------------------
+        */
+    
         $player = Player::create([
             'title' => $validated['title'],
             'token_id' => Str::uuid(),
             'configuration' => $validated['configuration'] ?? null,
-            'user_id' => auth()->id(),
+            'user_id' => $user->id,
         ]);
-
-        return response()->json(['player' => $player], 200);
+    
+        return response()->json([
+            'player' => $player,
+        ], 201);
     }
 
 

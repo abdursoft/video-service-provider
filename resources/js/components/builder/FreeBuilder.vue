@@ -31,7 +31,8 @@
             <main class="min-w-0">
                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
                     <!-- Settings -->
-                    <div class="min-h-[340px] md:min-h-[450px] border-b border-white/[0.08] p-5 sm:p-8 xl:border-r xl:border-b-0">
+                    <div
+                        class="min-h-[340px] md:min-h-[450px] border-b border-white/[0.08] p-5 sm:p-8 xl:border-r xl:border-b-0">
                         <SourceFreeSettings v-model="player" />
                     </div>
 
@@ -79,7 +80,8 @@
                                         <p class="mt-1 text-[11px] text-white/40">
                                             Your embed is ready to use.
                                         </p>
-                                        <p class="small text-yellow-500" v-if="!user">Free player will be deleted after 72 hours!</p>
+                                        <p class="small text-yellow-500" v-if="!user">Free player will be deleted after
+                                            72 hours!</p>
                                     </div>
                                     <span class="text-[#C9A227]"> ✓ </span>
                                 </div>
@@ -107,6 +109,7 @@ import SourceFreeSettings from '../settings/SourceFreeSettings.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import Handler from '@/utils/EmbedRender.js';
+import { toast } from 'vue3-toastify';
 
 const page = usePage();
 
@@ -121,7 +124,7 @@ const form = useForm({
 
 const generated = ref(false);
 const defaultPlayer = {
-    name: 'My Player',
+    name: 'ESY Player',
 
     source: {
         type: 'url',
@@ -130,7 +133,7 @@ const defaultPlayer = {
         youtubeApiKey: '',
     },
 
-    showProgress:true,
+    showProgress: true,
 
     playback: {
         autoplay: false,
@@ -318,7 +321,7 @@ const defaultPlayer = {
     branding: {
         enabled: true,
 
-        logo: page.props?.appURL+'/logo.png',
+        logo: page.props?.appURL + '/logo.png',
 
         position: {
             top: '20px',
@@ -337,10 +340,10 @@ const defaultPlayer = {
     },
 
 
-    loader:{
+    loader: {
         enabled: true,
-        icon:1,
-        color:'yellow'
+        icon: 1,
+        color: 'yellow'
     },
 
     thumbnail: {
@@ -453,19 +456,40 @@ const generate = async () => {
     form.configuration = player.value;
     form.title = player.value?.name;
 
-    await axios.post(route('player.store'), {
-        title: player.value.name,
-        configuration: player.value
-    }).then(async (response) => {
-        const iframe = Handler.renderIframe(response.data?.player?.token_id, page.props.appURL, form.title, 'watch');
+    try {
+        const response = await axios.post(route('player.store'), {
+            title: player.value.name,
+            configuration: player.value,
+        });
+
+        const iframe = Handler.renderIframe(
+            response.data?.player?.token_id,
+            page.props.appURL,
+            form.title,
+            'watch'
+        );
+
         try {
-            await window?.navigator?.clipboard?.writeText(iframe);
-            console.log("Copied successfully");
+            await navigator.clipboard.writeText(iframe);
+            console.log('Copied successfully');
         } catch (error) {
-            console.error("Copy failed:", error);
+            console.error('Copy failed:', error);
         }
-    })
+
+    } catch (error) {
+
+        console.log('Status:', error.response?.status);
+        console.log('Data:', error.response?.data);
+
+        if (error.response?.status === 403) {
+            toast.error(error.response?.data?.message);
+            return;
+        }
+    }
 
 
+    setTimeout(() => {
+        generated.value = false;
+    }, 400);
 };
 </script>

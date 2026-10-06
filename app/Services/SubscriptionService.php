@@ -278,8 +278,8 @@ class SubscriptionService
                     $session->subscription->trial_start
                 )
                 : null,
-            'starts_at' => $session->subscription->start_date,
-            'ends_at' => $session->subscription->end_date,
+            'starts_at' => $session->subscription->start_date ?? null,
+            'ends_at' => $session->subscription->end_date ?? null,
             'stripe_subscription_id' => $session->subscription->id,
             'stripe_subscription_item_id' => $session->invoice,
             'status' => $this->mapStripeStatus($session->subscription->status),
@@ -358,9 +358,16 @@ class SubscriptionService
             'active',
             'trialing' => 'active',
 
+            'past_due' => 'past_due',
+
+            'unpaid' => 'unpaid',
+            'succeeded' => 'active',
+            'paid' => 'active',
+
             'canceled',
-            'unpaid',
             'incomplete_expired' => 'expired',
+
+            'incomplete' => 'pending',
 
             default => 'active',
         };
