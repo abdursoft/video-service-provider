@@ -471,7 +471,8 @@ const generate = async () => {
 
         try {
             await navigator.clipboard.writeText(iframe);
-            console.log('Copied successfully');
+            generated.value = true;
+            toast.success('Embeded Copied successfully');
         } catch (error) {
             console.error('Copy failed:', error);
         }

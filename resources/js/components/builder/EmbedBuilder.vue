@@ -495,7 +495,6 @@ onMounted(() => {
 });
 
 const generate = async () => {
-    generated.value = true;
 
     form.configuration = player.value;
     form.title = player.value?.name;
@@ -534,6 +533,7 @@ const generate = async () => {
         try {
             await navigator.clipboard.writeText(iframe);
             toast.success('Embeded Copied successfully');
+            generated.value = true;
         } catch (error) {
             console.error('Copy failed:', error);
         }
